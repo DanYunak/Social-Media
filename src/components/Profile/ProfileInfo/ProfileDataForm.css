@@ -1,0 +1,12 @@
+input,
+textarea {
+  border: 1px solid black;
+  padding: 5px;
+  margin-top: 20px;
+}
+
+.form__error {
+  border: 3px solid red;
+  padding: 20px;
+  margin-top: 40px;
+}/*# sourceMappingURL=ProfileDataForm.css.map */

@@ -1,0 +1,16 @@
+.post {
+  display: flex;
+  align-items: center;
+  margin-top: 50px;
+}
+.post__content {
+  display: flex;
+  flex-direction: column;
+}
+.post__likes {
+  display: flex;
+  margin-top: 15px;
+}
+.post__likes span {
+  margin-right: 10px;
+}/*# sourceMappingURL=Post.css.map */

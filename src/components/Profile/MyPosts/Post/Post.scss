@@ -1,0 +1,16 @@
+.post {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+    &__content {
+        display: flex;
+        flex-direction: column;
+    }
+    &__likes {
+        display: flex;
+        margin-top: 15px;
+        span {
+            margin-right: 10px;
+        }
+    }
+}

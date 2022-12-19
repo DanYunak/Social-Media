@@ -1,0 +1,13 @@
+.search__num .selectedPage {
+  font-weight: 700;
+}
+.search__num span {
+  margin: 0 10px;
+  cursor: pointer;
+}
+@media (min-width: 992px) {
+  .search__num span:hover {
+    opacity: 0.5;
+    transition: opacity 0.3s;
+  }
+}/*# sourceMappingURL=Paginator.css.map */

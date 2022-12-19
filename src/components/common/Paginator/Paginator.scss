@@ -1,0 +1,17 @@
+.search__num {
+    .selectedPage {
+        font-weight: 700;
+    }
+
+    span {
+        margin: 0 10px;
+        cursor: pointer;
+
+        @media (min-width: 992px) {
+            &:hover {
+                opacity: .5;
+                transition: opacity .3s;
+            }
+        }
+    }
+}

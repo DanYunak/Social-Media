@@ -1,0 +1,65 @@
+.dialogs {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    padding: 100px 0 0 200px;
+
+    &__items {
+        padding: 10px;
+
+        a {
+            color: black;
+
+            &.active {
+                color: red;
+            }
+        }
+    }
+
+    .messages {
+        padding: 10px;
+        margin-left: 50px;
+
+        .message {
+            margin-top: 70px;
+        }
+
+        textarea {
+            margin: 20px 50px 0 0;
+        }
+    }
+}
+
+.message__btn {
+    margin-top: 50px;
+    width: 150px;
+    height: 50px;
+    border-radius: 30px;
+    font-size: 20px;
+    font-weight: 700;
+    background-color: #4747c7;
+    color: white;
+
+    @media (min-width: 992px) {
+        &:hover {
+            background-color: rgb(169, 169, 169);
+            color: #4747c7;
+            transition: color 1s;
+            transition: background-color 1s;
+        }
+    }
+}
+
+.message__field {
+    textarea {
+        background-color: #4747c7;
+        color: white;
+
+        &::placeholder {
+            color: white;
+        }
+    }
+}
+
+.messages__actions {
+    margin-left: -325px;
+}

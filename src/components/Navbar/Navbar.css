@@ -1,0 +1,41 @@
+.menu {
+  grid-area: m;
+  background-color: #7575ee;
+}
+.menu .menu__body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.menu .menu__body .menu__list {
+  display: flex;
+  flex-direction: column;
+  padding: 50px 0;
+}
+.menu .menu__body .menu__list li {
+  margin-top: 15px;
+}
+.menu .menu__body .menu__list li:nth-child(5) {
+  margin-top: 60px;
+}
+.menu .menu__body .menu__list li .menu__link {
+  font-size: 28px;
+  font-weight: 600;
+  color: white;
+}
+.menu .menu__body .menu__list li .menu__link.active {
+  color: gold;
+}
+@media (min-width: 992px) {
+  .menu .menu__body .menu__list li .menu__link {
+    background-image: linear-gradient(transparent 0%, transparent 90%, white 90%, white 100%);
+    background-repeat: no-repeat;
+    background-size: 0% 100%;
+    background-position-x: right;
+    transition: background-size 0.8s;
+  }
+  .menu .menu__body .menu__list li .menu__link:hover {
+    background-size: 100% 100%;
+    background-position-x: left;
+  }
+}/*# sourceMappingURL=Navbar.css.map */

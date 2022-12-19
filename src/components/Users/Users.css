@@ -1,0 +1,70 @@
+.user {
+  display: flex;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 100px;
+}
+.user__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 0;
+}
+.user span {
+  flex-direction: column;
+  margin-right: 100px;
+  align-items: center;
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+}
+.user__info {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+}
+.user__about {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  padding-left: 20px;
+}
+.user__location {
+  flex-direction: column;
+  display: flex;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: 700;
+  margin-top: 25px;
+}
+.user__name {
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.user__name a {
+  color: blue;
+}
+.user__status {
+  font-size: 20px;
+}
+
+.preloader__img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.term__field {
+  border: 1px solid black;
+  margin: 50px 20px;
+  width: 200px;
+  height: 40px;
+}/*# sourceMappingURL=Users.css.map */

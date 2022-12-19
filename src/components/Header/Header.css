@@ -1,0 +1,32 @@
+.header {
+  position: absolute;
+  line-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 80%;
+}
+
+.login__block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login__block .user__img {
+  margin-right: 15px;
+  position: relative;
+  transform: translateY(25%);
+  top: -25%;
+}
+.login__block .user__avatar {
+  position: relative;
+  transform: translateY(25%);
+  top: -25%;
+}
+
+.login__btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(100%);
+}/*# sourceMappingURL=Header.css.map */

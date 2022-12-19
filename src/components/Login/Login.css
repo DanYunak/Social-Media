@@ -1,0 +1,23 @@
+.login {
+  padding-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.login form {
+  font-size: 30px;
+}
+.login form input {
+  font-size: 20px;
+  border: 1px solid black;
+  margin-top: 40px;
+}
+.login form input:focus {
+  border: 3px solid #3b85fc;
+}
+.login form .form__error {
+  border: 3px solid red;
+  padding: 20px;
+  margin-top: 40px;
+}/*# sourceMappingURL=Login.css.map */

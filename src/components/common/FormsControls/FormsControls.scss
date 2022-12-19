@@ -1,0 +1,11 @@
+.form__control_error {
+    input, textarea {
+        border: 2px solid red;
+        margin-bottom: 20px;
+    }
+    span {
+        color: red;
+        font-weight: 600;
+        font-size: 22px;
+    }
+}
