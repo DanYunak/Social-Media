@@ -78,13 +78,13 @@ export const actions = {
 
 //* THUNKS =========================================================================================================
 
-export const getUserProfile = (userId: number | null): ThunkType => async (dispatch) => {
+export const getUserProfile = (userId: number | string | null | undefined): ThunkType => async (dispatch) => {
 
     const response = await profileAPI.getProfile(userId)
     dispatch(actions.setUserProfile(response.data))
 }
 
-export const getStatus = (userId: number): ThunkType => async (dispatch) => {
+export const getStatus = (userId: number | string | null | undefined): ThunkType => async (dispatch) => {
 
     const response = await profileAPI.getStatus(userId)
     dispatch(actions.setStatus(response.data))

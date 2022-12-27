@@ -1,68 +1,58 @@
-import React, { ChangeEvent, memo } from 'react';
-import './ProfileInfo.css';
+import { FC, memo, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { updateStatus } from '../../../redux/profile-reducer'
+import { getStatusSelector } from '../../../redux/profile-selectors'
+import { useAppDispatch } from '../../../redux/redux-store'
 
 type PropsType = {
-    status: string
-    updateStatus: (newStatus: string) => void
+    isOwner: boolean
 }
 
-type StateType = {
-    editMode: boolean
-    status: string
-}
+export const ProfileStatus: FC<PropsType> = memo(({ isOwner }) => {
+    const [editMode, setEditMode] = useState(false)
 
-class ProfileStatus extends React.Component<PropsType, StateType> {
-    state = {
-        editMode: false,
-        status: this.props.status
+    const status = useSelector(getStatusSelector)
+
+    const [userStatus, setUserStatus] = useState(status)
+
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        setUserStatus(status)
+    }, [status])
+
+    const activaEditMode = () => {
+        setEditMode(true)
     }
 
-    activateMode = () => {
-        this.setState({
-            editMode: true
-        })
+    const deactivateEditMode = () => {
+        setEditMode(false)
+        dispatch(updateStatus(userStatus))
     }
 
-    deactivateMode = () => {
-        this.setState({
-            editMode: false
-        });
-        this.props.updateStatus(this.state.status);
+    const onStatusChange = (e: { currentTarget: HTMLInputElement }) => {
+        setUserStatus(e.currentTarget.value)
     }
 
-    onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
-        this.setState({
-            status: e.currentTarget.value
-        })
-    }
-
-    componentDidUpdate = (prevProps: PropsType, prevState: StateType) => {
-        if (prevProps.status !== this.props.status) {
-            this.setState({
-                status: this.props.status
-            });
-        }
-    }
-
-    render() {
-        return (
-            <div className='profile__status_wrapper' >
-                {!this.state.editMode &&
-                    <div className='profile__status info'>
-                        <span onDoubleClick={this.activateMode}>Status:
-                            <span className='status'>{this.props.status || 'none'}</span>
+    return (
+        <div className='profile__status_wrapper' >
+            {!editMode &&
+                <div className='profile__status info'>
+                    {isOwner
+                        ? <span onDoubleClick={activaEditMode}><b>Status:</b>
+                            <span className='status'> {status || 'none'} </span>
                         </span>
-                    </div>
-                }
-                {this.state.editMode &&
-                    <div>
-                        <input onChange={this.onStatusChange} autoFocus={true} onBlur={this.deactivateMode}
-                            value={this.state.status} />
-                    </div>
-                }
-            </div>
-        )
-    }
-}
-
-export default ProfileStatus;
+                        : <span><b>Status:</b>
+                            <span className='status'> {status || 'none'} </span>
+                        </span>
+                    }
+                </div>
+            }
+            {editMode &&
+                <div>
+                    <input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode} value={userStatus} />
+                </div>
+            }
+        </div>
+    )
+})

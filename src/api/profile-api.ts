@@ -1,5 +1,7 @@
-import { ProfileType } from './../redux/types/types';
-import { ResultCodesEnum, instance, APIResponseType } from './api';
+import { getAuthorizedId } from './../redux/profile-selectors';
+import { useSelector } from 'react-redux';
+import { ProfileType } from './../redux/types/types'
+import { ResultCodesEnum, instance, APIResponseType } from './api'
 
 
 type UpdateStatusDataType = {
@@ -19,11 +21,18 @@ type SavePhotoDataType = {
     }
 }
 
+type GetUserPhotosResponseType = {
+    photos: {
+        small: string
+        large: string
+    }
+}
+
 export const profileAPI = {
-    getProfile(userId: number | null) {
+    getProfile(userId: number | string | null | undefined) {
         return instance.get<ProfileType>(`profile/` + userId)
     },
-    getStatus(userId: number) {
+    getStatus(userId: number | string | null | undefined) {
         return instance.get<string>(`profile/status/` + userId)
     },
     updateStatus(status: string) {

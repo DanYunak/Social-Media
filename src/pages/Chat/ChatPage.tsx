@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { sendMessage, startMessagesListening, stopMessagesListening } from '../../redux/chat-reducer'
 import { getMessages, getStatus } from '../../redux/chat-selectors'
-import { getUserLogin } from '../../redux/header-selectors'
+import { getAuthorizedId } from '../../redux/profile-selectors'
 import { useAppDispatch } from '../../redux/redux-store'
 
 
@@ -46,12 +46,12 @@ const Chat: FC = memo(() => {
 
 const Message: FC<{ message: ChatMessageAPIType }> = memo(({ message }) => {
 
-    const login = useSelector(getUserLogin)
+    const authorizedId = useSelector(getAuthorizedId)
 
     return (
         <div style={{ marginTop: 20, display: 'flex', alignItems: 'center' }}>
-                {message.userName !== login
-                    ? <Link to={'/profile/' + message.userId}>
+                {message.userId !== authorizedId
+                    ? <Link to={`/profile/${message.userId}` }>
                         <img src={message.photo} width='50' height='50' style={{ marginRight: 15 }} />
                         <div>{message.userName}</div>
                     </Link>

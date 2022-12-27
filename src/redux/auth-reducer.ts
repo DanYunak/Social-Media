@@ -10,7 +10,7 @@ let initialState = {
     email: null as string | null,
     login: null as string | null,
     isAuth: false,
-    captchaUrl: null as string | null //? if null, then captcha is not required
+    captchaUrl: null as string | null, //? if null, then captcha is not required
 }
 
 export type InitialStateType = typeof initialState

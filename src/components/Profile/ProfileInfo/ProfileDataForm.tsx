@@ -11,6 +11,15 @@ type PropsType = {
     outFromEditMode: () => void
 }
 
+type ContactsTypeKey = {
+    github: string
+    facebook: string
+    instagram: string
+    twitter: string
+    website: string
+    youtube: string
+}
+
 const ProfileDataForm: FC<InjectedFormProps<ProfileType, PropsType> & PropsType> = memo(
     ({ profile, outFromEditMode, handleSubmit, error }) => {
         return (
@@ -39,12 +48,12 @@ const ProfileDataForm: FC<InjectedFormProps<ProfileType, PropsType> & PropsType>
                         <span className='profile__contacts_title' style={{ color: 'black' }}>Contacts: {
                             Object
                                 // @ts-ignore
-                                .keys(profile.contacts)
+                                .keys(profile?.contacts)
                                 .map(key => { //? Object.keys пробіжиться по всьому об'єкту який приходить з серверу і дасть кожному елементу по ключу; по кожному елементу замапиться і відмальює компоненту Contact
                                     return (
                                         <div className='contacts' key={key}>
                                             <span style={{ color: 'black' }}>{key}:
-                                                <Field type={key} name={'contacts.' + key} component={Element} elementType='input' placeholder='link' />
+                                                <Field type={key} name={`contacts.${key}`} component={Element} elementType='input' placeholder='link' />
                                             </span>
                                         </div>
                                     )

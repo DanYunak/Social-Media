@@ -16,13 +16,11 @@ beforeEach(() => {
             fullName: 'Dan',
             contacts: {
                 github: '',
-                vk: '',
                 facebook: '',
                 instagram: '',
                 twitter: '',
                 website: '',
-                youtube: '',
-                mainLink: ''
+                youtube: ''
             },
             photos: {
                 small: null,

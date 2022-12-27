@@ -1,41 +1,54 @@
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Button, Space } from 'antd'
-import { FC, memo, useEffect } from 'react'
+import axios from 'axios'
+import { FC, memo, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { logout } from '../../redux/auth-reducer'
-import { getUserLogin, getUserSmallPhoto } from '../../redux/header-selectors'
-import { getIsAuth } from '../../redux/profile-selectors'
+import { getUserLogin } from '../../redux/auth-selectors'
+import { getAuthorizedId, getIsAuth } from '../../redux/profile-selectors'
 import { useAppDispatch } from '../../redux/redux-store'
 import './Header.css'
+
+type GetPhotosResponseType = {
+    photos: {
+        small: string
+        large: string
+    }
+}
 
 export const HeaderApp: FC = memo(() => {
 
     const isAuth = useSelector(getIsAuth)
     const login = useSelector(getUserLogin)
-    const smallPhoto = useSelector(getUserSmallPhoto)
-    
-    const location = useLocation()
-    
+    const authorizedId = useSelector(getAuthorizedId)
+
     const dispatch = useAppDispatch()
 
     const logoutCallback = () => {
         dispatch(logout())
     }
 
+    const [smallUserPhoto, setSmallUserPhoto] = useState<string>('')
+
+    useEffect(() => {
+        axios.get<GetPhotosResponseType>(`https://social-network.samuraijs.com/api/1.0/profile/${authorizedId}`)
+            .then(res => {
+                setSmallUserPhoto(res.data.photos.small)
+            })
+    }, [])
+
     return (
         <header className='header'>
             <div className='login__block'>
                 <div className='user__img'>
-                    // todo 
-                    {/* {smallPhoto
+                    {smallUserPhoto !== ''
                         ? <div>
-                            <img src={smallPhoto} width='50' height='50' />
+                            <img src={smallUserPhoto} width='50' height='50' />
                         </div>
                         : <div className='user__avatar'>
                             <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
-                        </div>
-                    } */}
+                        </div>}
                 </div>
                 {isAuth
                     ? <span>

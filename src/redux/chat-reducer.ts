@@ -66,6 +66,7 @@ const statusChangedHandlerCreator = (dispatch: Dispatch) => {
     return _statusChangedHandler
 }
 
+
 export const startMessagesListening = (): ThunkType => async (dispatch) => {
     chatAPI.start()
     chatAPI.subscribe('message-received', newMessageHandlerCreator(dispatch))

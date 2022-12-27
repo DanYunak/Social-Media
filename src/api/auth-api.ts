@@ -24,7 +24,7 @@ export const authAPI = {
     },
     logout() {
         return instance.delete<APIResponseType<LogoutResponseDataType>>('auth/login').then(res => res.data)
-    }
+    } 
 }
 
 type CaptchaUrlResponseType = {

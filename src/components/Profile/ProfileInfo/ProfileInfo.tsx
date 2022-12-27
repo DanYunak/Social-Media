@@ -1,27 +1,31 @@
-import { ChangeEvent, FC, memo, useState } from 'react'
-import { GithubOutlined, FacebookOutlined, TwitterOutlined, ChromeOutlined, InstagramOutlined, YoutubeOutlined } from '@ant-design/icons'
-import './ProfileInfo.css'
-import { ContactsType, ProfileType } from '../../../redux/types/types'
-import ProfileDataFormRedux from './ProfileDataForm'
-import ProfileStatusWithHooks from './ProfileStatusWithHooks'
-import Preloader from '../../common/Preloader/Preloader'
+import { ChromeOutlined, FacebookOutlined, GithubOutlined, InstagramOutlined, TwitterOutlined, YoutubeOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
+import { ChangeEvent, FC, memo, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { getUserLogin } from '../../../redux/auth-selectors'
+import { savePhoto, saveProfile } from '../../../redux/profile-reducer'
+import { getProfile } from '../../../redux/profile-selectors'
+import { useAppDispatch } from '../../../redux/redux-store'
+import { ContactsType, ProfileType } from '../../../redux/types/types'
+import Preloader from '../../common/Preloader/Preloader'
+import ProfileDataFormRedux from './ProfileDataForm'
+import './ProfileInfo.css'
+import { ProfileStatus } from './ProfileStatus'
 const userImg = require('../../../assets/images/avatar.png')
 
 
 type PropsType = {
-    profile: ProfileType | null
-    status: string
     isOwner: boolean
-
-    updateStatus: (status: string) => void
-    savePhoto: (file: File) => void
-    saveProfile: (profile: ProfileType) => any
 }
 
-const ProfileInfo: FC<PropsType> = memo(({ profile, status, updateStatus, isOwner, savePhoto, saveProfile }) => {
+const ProfileInfo: FC<PropsType> = memo(({ isOwner }) => {
 
     let [editMode, setEditMode] = useState(false)
+
+    const profile = useSelector(getProfile)
+    const login = useSelector(getUserLogin)
+
+    const dispatch = useAppDispatch()
 
     if (!profile) {
         return (
@@ -31,13 +35,14 @@ const ProfileInfo: FC<PropsType> = memo(({ profile, status, updateStatus, isOwne
 
     let onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.length) {
-            savePhoto(e.target.files[0])
+            dispatch(savePhoto(e.target.files[0]))
         }
     }
 
     const onSubmit = async (formData: ProfileType) => {
         // todo: remove then
-        saveProfile(formData).then(() => {
+        // @ts-ignore
+        dispatch(saveProfile(formData)).then(() => {
             setEditMode(false) //* Якщо всі дані будуть введені правильно і помилок не буде - режим редагування виключиться, якщо ні то виведеться помилка під формою
         }
         )
@@ -52,27 +57,28 @@ const ProfileInfo: FC<PropsType> = memo(({ profile, status, updateStatus, isOwne
                 <div className='avatar__change'>
                     {isOwner && <input type={'file'} onChange={onMainPhotoSelected}></input>}
                 </div>
-                <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
+                <ProfileStatus isOwner={isOwner} />
             </div>
             {editMode
                 ? <ProfileDataFormRedux initialValues={profile} profile={profile}
                     outFromEditMode={() => { setEditMode(false) }} onSubmit={onSubmit} />
-                : <ProfileData profile={profile} isOwner={isOwner} goToEditMode={() => { setEditMode(true) }} />}
+                : <ProfileData isOwner={isOwner} goToEditMode={() => { setEditMode(true) }} />}
 
         </div>
     )
 })
 
 type ProfileDataPropsType = {
-    profile: ProfileType | null
     isOwner: boolean
     goToEditMode: () => void
 }
 
 
-const ProfileData: FC<ProfileDataPropsType> = memo(({ profile, isOwner, goToEditMode }) => {
+const ProfileData: FC<ProfileDataPropsType> = memo(({ isOwner, goToEditMode }) => {
 
     const [contacts, showContacts] = useState(false)
+
+    const profile = useSelector(getProfile)
 
     return (
         <div className='profile__info'>
@@ -99,7 +105,7 @@ const ProfileData: FC<ProfileDataPropsType> = memo(({ profile, isOwner, goToEdit
                                 Object
                                     // @ts-ignore
                                     .keys(profile?.contacts)
-                                    .map((key) => { //? Object.keys пробіжиться по всьому об'єкту який приходить з серверу і дасть кожному елементу по ключу по кожному елементу замапиться і відмальє компоненту Contact
+                                    .map(key => { //? Object.keys пробіжиться по всьому об'єкту який приходить з серверу і дасть кожному елементу по ключу по кожному елементу замапиться і відмальє компоненту Contact
                                         return (
                                             <Contact contactTitle={key} key={key} contactValue={profile?.contacts[key as keyof ContactsType]} />
                                         )

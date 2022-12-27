@@ -1,6 +1,6 @@
 import { AppStateType } from './redux-store'
 
-export const getUserLogin = (state: AppStateType) => {
+export const getUserFullName = (state: AppStateType) => {
     return state.profilePage.profile?.fullName
 }
 
