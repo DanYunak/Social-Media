@@ -44,7 +44,7 @@ const Users: FC = memo(() => {
 
     useEffect(() => {
         const query = new URLSearchParams(location.search)
-        
+
         let actualPage = currentPage
         let actualFilter = filter
 
@@ -96,7 +96,7 @@ const Users: FC = memo(() => {
             <UsersSearchForm onFilterChanged={onFilterChanged} />
 
             <Paginator totalUsersCount={totalUsersCount} pageSize={pageSize}
-                currentPage={currentPage} onPageChanged={onPageChanged} />
+                currentPage={currentPage} onPageChanged={onPageChanged} portionSize={10} />
 
             {
                 users.map(u =>

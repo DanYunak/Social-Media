@@ -28,6 +28,7 @@ type PropertiesTypes<T> = T extends { [key: string]: infer U } ? U : never
 
 export type AppDispatch = typeof store.dispatch
 
+
 export const useAppDispatch = () => useDispatch<AppDispatch>() // instead of using const dispatch: AppDispatch = useDispatch()
 
 export type InferActionsTypes<T> = T extends { [key: string]: (...args: any[]) => infer U } ? U : never

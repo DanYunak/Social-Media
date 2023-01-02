@@ -1,13 +1,20 @@
-@import 'nullstyle.scss';
+// @import 'nullstyle.scss';
 
-.app-wrapper {
-    display: grid;
-    grid-template-areas:
-        'h h'
-        'm c';
-    grid-template-rows: 60px 1fr;
-    grid-template-columns: 2fr 10fr;
-    font-size: 25px;
-    width: 1200px;
-    margin: 0 auto;
+// .app-wrapper {
+//     display: grid;
+//     grid-template-areas:
+//         'h h'
+//         'm c';
+//     grid-template-rows: 60px 1fr;
+//     grid-template-columns: 2fr 10fr;
+//     font-size: 25px;
+//     width: 1200px;
+//     margin: 0 auto;
+// }
+
+.change__language {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
 }

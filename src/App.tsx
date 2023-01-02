@@ -6,11 +6,13 @@ import { Layout, Menu, MenuProps, theme } from 'antd'
 import React, { FC, memo, Suspense, useEffect, useState } from 'react'
 import { Provider, useSelector } from 'react-redux'
 import {
-  BrowserRouter, Link, Navigate, Route, Routes
+  BrowserRouter, Link, Navigate, Route, Routes, useNavigate
 } from 'react-router-dom'
+import './App.css'
 import Preloader from './components/common/Preloader/Preloader'
 import { Dialogs } from './components/Dialogs/Dialogs'
 import { HeaderApp } from './components/Header/Header'
+import { LanguagePage } from './components/Language/LanguagePage'
 import { LoginPage } from './components/Login/Login'
 import Music from './components/Music/Music'
 import News from './components/News/News'
@@ -18,8 +20,8 @@ import { ProfilePage } from './components/Profile/ProfilePage'
 import Settings from './components/Settings/Settings'
 import { UsersPage } from './components/Users/UsersPage'
 import { ChatPage } from './pages/Chat/ChatPage'
-import { initializeApp } from './redux/app-reducer'
-import { getInitialized } from './redux/app-selectors'
+import { initializeApp, languageParse } from './redux/app-reducer'
+import { getInitialized, getLanguage } from './redux/app-selectors'
 import store, { useAppDispatch } from './redux/redux-store'
 
 const { Header, Content, Footer, Sider } = Layout
@@ -41,25 +43,45 @@ function getItem(
 }
 
 
-const items: MenuItem[] = [
-  getItem('Profile', '1', <Link to='/profile'><HomeOutlined /></Link>,),
-  getItem('Messages', '2', <Link to='/dialogs'><MessageOutlined /></Link>),
-  getItem('Users', '3', <Link to='/users'><TeamOutlined /></Link>),
-  getItem('Chat', '4', <Link to='/chat'><WechatOutlined /></Link>),
-  getItem('News', '5', <Link to='/news'><NotificationOutlined /></Link>),
-  getItem('Music', '6', <Link to='/music'><CustomerServiceOutlined /></Link>),
-  getItem('Settings', '7', <Link to='/settings'><SettingOutlined /></Link>)
-];
-
 const App: FC = memo(() => {
+
+  const dispatch = useAppDispatch()
+
+  const initialized = useSelector(getInitialized)
+  const language = useSelector(getLanguage)
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!languageParse) {
+      navigate('/language')
+    }
+  }, [languageParse])
+
+  const itemsEng: MenuItem[] =
+    [
+      getItem('Profile', '1', <Link to='/profile'><HomeOutlined /></Link>),
+      getItem('Chat', '2', <Link to='/chat'><WechatOutlined /></Link>),
+      getItem('Users', '3', <Link to='/users'><TeamOutlined /></Link>),
+      getItem('News', '4', <Link to='/news'><NotificationOutlined /></Link>),
+      getItem('Music', '5', <Link to='/music'><CustomerServiceOutlined /></Link>),
+      getItem('Settings', '6', <Link to='/settings'><SettingOutlined /></Link>)
+    ]
+
+  const itemsUkr: MenuItem[] =
+    [
+      getItem('Профіль', '1', <Link to='/profile'><HomeOutlined /></Link>),
+      getItem('Чат', '2', <Link to='/chat'><WechatOutlined /></Link>),
+      getItem('Користувачі', '3', <Link to='/users'><TeamOutlined /></Link>),
+      getItem('Новини', '4', <Link to='/news'><NotificationOutlined /></Link>),
+      getItem('Музика', '5', <Link to='/music'><CustomerServiceOutlined /></Link>),
+      getItem('Налаштування', '6', <Link to='/settings'><SettingOutlined /></Link>)
+    ]
 
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
-  const initialized = useSelector(getInitialized)
-  const dispatch = useAppDispatch()
 
   const catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
     alert('An error has occured')
@@ -82,7 +104,8 @@ const App: FC = memo(() => {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <div style={{ height: 32, margin: 16, background: 'rgba(255, 255, 255, 0.2)' }} />
-        <Menu theme='dark' mode='inline' items={items} />
+        {language === 'english' && <Menu theme='dark' mode='inline' items={itemsEng} />}
+        {language === 'ukrainian' && <Menu theme='dark' mode='inline' items={itemsUkr} />}
       </Sider>
       <Layout className='site-layout'>
         <Header style={{ height: 85 }}>
@@ -102,6 +125,7 @@ const App: FC = memo(() => {
                 <Route path='/users' element={<UsersPage />} />
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/chat' element={<ChatPage />} />
+                <Route path='/language' element={<LanguagePage />} />
               </Routes>
             </Suspense>
           </div>

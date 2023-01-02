@@ -2,6 +2,7 @@ import { Button } from 'antd'
 import React, { FC, memo, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { getLanguage } from '../../redux/app-selectors'
 import { sendMessage, startMessagesListening, stopMessagesListening } from '../../redux/chat-reducer'
 import { getMessages, getStatus } from '../../redux/chat-selectors'
 import { getAuthorizedId } from '../../redux/profile-selectors'
@@ -47,6 +48,7 @@ const Chat: FC = memo(() => {
 const Message: FC<{ message: ChatMessageAPIType }> = memo(({ message }) => {
 
     const authorizedId = useSelector(getAuthorizedId)
+    const language = useSelector(getLanguage)
 
     return (
         <div style={{ marginTop: 20, display: 'flex', alignItems: 'center' }}>
@@ -57,7 +59,7 @@ const Message: FC<{ message: ChatMessageAPIType }> = memo(({ message }) => {
                     </Link>
                     : <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
                         <img src={message.photo} width='50' height='50' style={{ marginRight: 15 }} />
-                        <b style={{marginLeft: -40}}>You</b>
+                        <b style={{marginLeft: -40}}>{language === 'english' ? 'You' : 'Ви'}</b>
                     </div>
                 }
             <br />
@@ -101,6 +103,7 @@ const AddMessageForm: FC = memo(() => {
     const [message, setMessage] = useState('')
 
     const status = useSelector(getStatus)
+    const language = useSelector(getLanguage)
 
     const sendMessageHandler = () => {
 
@@ -117,7 +120,7 @@ const AddMessageForm: FC = memo(() => {
             <textarea onChange={(e) => setMessage(e.currentTarget.value)} value={message}></textarea>
             <Button type='primary' htmlType='submit' onClick={sendMessageHandler}
                 disabled={status !== 'ready'}
-                style={{ marginLeft: 20 }}>Send</Button>
+                style={{ marginLeft: 20 }}>{language === 'english' ? 'Send' : 'Надіслати'}</Button>
         </div>
     )
 })

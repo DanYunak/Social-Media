@@ -4,6 +4,8 @@ import axios from 'axios'
 import { FC, memo, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { changeLanguage } from '../../redux/app-reducer'
+import { getLanguage } from '../../redux/app-selectors'
 import { logout } from '../../redux/auth-reducer'
 import { getUserLogin } from '../../redux/auth-selectors'
 import { getAuthorizedId, getIsAuth } from '../../redux/profile-selectors'
@@ -22,6 +24,7 @@ export const HeaderApp: FC = memo(() => {
     const isAuth = useSelector(getIsAuth)
     const login = useSelector(getUserLogin)
     const authorizedId = useSelector(getAuthorizedId)
+    const language = useSelector(getLanguage)
 
     const dispatch = useAppDispatch()
 
@@ -55,17 +58,21 @@ export const HeaderApp: FC = memo(() => {
                         <div className='profile__name' style={{ color: 'white' }}>{login}</div>
                         {login
                             ? <Space wrap>
-                                <Button type='primary' onClick={logoutCallback} danger>
-                                    Log Out
-                                </Button>
+                                {language === 'english' && <Button type='primary' onClick={logoutCallback} danger>Log Out</Button>}
+                                {language === 'ukrainian' && <Button type='primary' onClick={logoutCallback} danger>Вийти</Button>}
                             </Space>
                             : null}
                     </span>
                     : <Link to={'/login'}>
                         <Space wrap>
-                            <Button type='default' htmlType='submit' className='login__btn'>Log In</Button>
+                            {language === 'english' && <Button type='default' htmlType='submit' className='login__btn'>Log In</Button>}
+                            {language === 'ukrainian' && <Button type='default' htmlType='submit' className='login__btn'>Увійти</Button>}
                         </Space>
                     </Link>}
+            </div>
+            <div className='change__language'>
+                {/* <Button type='default' disabled={language === 'english'} onClick={() => dispatch(changeLanguage('english'))}>Eng</Button> */}
+                {/* <Button type='default' disabled={language === 'ukrainian'} onClick={() => dispatch(changeLanguage('ukrainian'))}>Ukr</Button> */}
             </div>
         </header >
     )

@@ -1,5 +1,6 @@
 import { FC, memo } from 'react'
 import { useSelector } from 'react-redux'
+import { getLanguage } from '../../../redux/app-selectors'
 import { getPostsData } from '../../../redux/myPosts-selectors'
 import { actions } from '../../../redux/profile-reducer'
 import { useAppDispatch } from '../../../redux/redux-store'
@@ -14,6 +15,7 @@ export type AddPostValueType = {
 export const MyPosts: FC = memo(() => {
 
     const postsData = useSelector(getPostsData)
+    const language = useSelector(getLanguage)
 
     const dispatch = useAppDispatch()
 
@@ -28,7 +30,9 @@ export const MyPosts: FC = memo(() => {
 
     return (
         <div className='posts'>
-            <h3>My posts</h3>
+            <h3>
+                {language === 'english' ? 'My posts' : 'Мої пости'}
+            </h3>
             <div className='post__actions'>
                 <PostReduxForm onSubmit={onAddPost} />
             </div>

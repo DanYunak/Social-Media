@@ -1,5 +1,6 @@
 import { FC, memo, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { getLanguage } from '../../../redux/app-selectors'
 import { updateStatus } from '../../../redux/profile-reducer'
 import { getStatusSelector } from '../../../redux/profile-selectors'
 import { useAppDispatch } from '../../../redux/redux-store'
@@ -12,6 +13,7 @@ export const ProfileStatus: FC<PropsType> = memo(({ isOwner }) => {
     const [editMode, setEditMode] = useState(false)
 
     const status = useSelector(getStatusSelector)
+    const language = useSelector(getLanguage)
 
     const [userStatus, setUserStatus] = useState(status)
 
@@ -39,11 +41,33 @@ export const ProfileStatus: FC<PropsType> = memo(({ isOwner }) => {
             {!editMode &&
                 <div className='profile__status info'>
                     {isOwner
-                        ? <span onDoubleClick={activaEditMode}><b>Status:</b>
-                            <span className='status'> {status || 'none'} </span>
+                        ? <span onDoubleClick={activaEditMode}>
+                            {language === 'english' &&
+                                <>
+                                    <b>Status:</b>
+                                    <span className='status'> {status || 'none'} </span>
+                                </>
+                            }
+                            {language === 'ukrainian' &&
+                                <>
+                                    <b>Статус:</b>
+                                    <span className='status'> {status || 'відсутній'} </span>
+                                </>
+                            }
                         </span>
-                        : <span><b>Status:</b>
-                            <span className='status'> {status || 'none'} </span>
+                        : <span>
+                            {language === 'english' &&
+                                <>
+                                    <b>Status:</b>
+                                    <span className='status'> {status || 'none'} </span>
+                                </>
+                            }
+                            {language === 'ukrainian' &&
+                                <>
+                                    <b>Статус:</b>
+                                    <span className='status'> {status || 'відсутній'} </span>
+                                </>
+                            }
                         </span>
                     }
                 </div>

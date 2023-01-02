@@ -19,9 +19,6 @@ export const ProfilePage: FC = memo(() => {
     const { pathname } = useLocation()
     const navigate = useNavigate()
 
-    const match = { params: useParams() }
-    let userId = match.params.userIdde
-
     const refreshProfile = () => {
         if (!userId) {
             // @ts-ignore
@@ -34,6 +31,9 @@ export const ProfilePage: FC = memo(() => {
         dispatch(getUserProfile(userId))
         dispatch(getStatus(userId))
     }
+    const match = { params: useParams() }
+    let userId = match.params.userIdde
+
 
     useEffect(() => {
         refreshProfile()

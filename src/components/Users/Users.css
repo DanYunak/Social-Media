@@ -13,7 +13,6 @@
 }
 .user span {
   flex-direction: column;
-  margin-right: 100px;
   align-items: center;
   justify-content: center;
   display: inline-flex;
@@ -46,7 +45,7 @@
 }
 .user__name {
   font-weight: 700;
-  margin-bottom: 20px;
+  margin: 10px 0;
 }
 .user__name a {
   color: blue;

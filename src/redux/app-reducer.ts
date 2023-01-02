@@ -3,11 +3,18 @@ import { ThunkAction } from 'redux-thunk'
 import { AppStateType, InferActionsTypes } from './redux-store'
 
 
-let initialState = {
-    initialized: false
+export type LanguagesType = 'english' | 'ukrainian'
+
+// @ts-ignore
+export const languageParse = JSON.parse(localStorage.getItem('language'))
+
+const initialState = {
+    initialized: false,
+    language: languageParse
 }
 
 type InitialStateType = typeof initialState
+
 
 const appReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -15,6 +22,11 @@ const appReducer = (state = initialState, action: ActionsTypes): InitialStateTyp
             return {
                 ...state,
                 initialized: true
+            }
+        case 'APP/SET_LANGUAGE':
+            return {
+                ...state,
+                language: action.language
             }
         default:
             return state
@@ -26,7 +38,8 @@ const appReducer = (state = initialState, action: ActionsTypes): InitialStateTyp
 type ActionsTypes = InferActionsTypes<typeof actions>
 
 export const actions = {
-    initializedSuccess: () => ({ type: 'APP/INITIALIZED_SUCCESS' } as const)
+    initializedSuccess: () => ({ type: 'APP/INITIALIZED_SUCCESS' } as const),
+    setLanguage: (language: LanguagesType) => ({ type: 'APP/SET_LANGUAGE', language } as const)
 }
 
 //* ============================================================================================================
@@ -43,6 +56,13 @@ export const initializeApp = (): ThunkType => (dispatch) => {
         .then(() => {
             dispatch(actions.initializedSuccess()) //? Коли виконається проміс і отримаються дані про юзера, тільки після цього програма заініціалізується
         })
+}
+
+export const changeLanguage = (language: LanguagesType): ThunkType => (dispatch) => {
+    dispatch(actions.setLanguage(language))
+
+    localStorage.setItem('language', JSON.stringify(language))
+    console.log(localStorage);
 }
 
 //* ============================================================================================================

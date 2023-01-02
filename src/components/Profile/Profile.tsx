@@ -1,7 +1,6 @@
-import ProfileInfo from './ProfileInfo/ProfileInfo';
-import { FC, memo } from 'react';
-import { ProfileType } from '../../redux/types/types';
-import { MyPosts } from './MyPosts/MyPosts';
+import { FC, memo } from 'react'
+import { MyPosts } from './MyPosts/MyPosts'
+import { ProfileInfo } from './ProfileInfo/ProfileInfo'
 
 type PropsType = {
     isOwner: boolean
@@ -16,4 +15,4 @@ const Profile: FC<PropsType> = memo((props) => {
     )
 })
 
-export default Profile;
+export default Profile
