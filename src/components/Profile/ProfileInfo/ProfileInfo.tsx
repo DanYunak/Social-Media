@@ -1,13 +1,12 @@
 import { ChangeEvent, FC, memo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getLanguage } from '../../../redux/app-selectors'
 import { savePhoto, saveProfile } from '../../../redux/profile-reducer'
 import { getProfile } from '../../../redux/profile-selectors'
 import { useAppDispatch } from '../../../redux/redux-store'
 import { ProfileType } from '../../../redux/types/types'
 import Preloader from '../../common/Preloader/Preloader'
 import { ProfileData } from './ProfileData'
-import ProfileDataFormRedux from './ProfileDataForm'
+import { ProfileDataForm } from './ProfileDataForm'
 import './ProfileInfo.css'
 import { ProfileStatus } from './ProfileStatus'
 const userImg = require('../../../assets/images/avatar.png')
@@ -21,7 +20,6 @@ export const ProfileInfo: FC<PropsType> = memo(({ isOwner }) => {
     let [editMode, setEditMode] = useState(false)
 
     const profile = useSelector(getProfile)
-    const language = useSelector(getLanguage)
 
     const dispatch = useAppDispatch()
 
@@ -57,9 +55,13 @@ export const ProfileInfo: FC<PropsType> = memo(({ isOwner }) => {
                 </div>
                 <ProfileStatus isOwner={isOwner} />
             </div>
-            {editMode
+            {/* {editMode
                 ? <ProfileDataFormRedux initialValues={profile} profile={profile}
                     outFromEditMode={() => { setEditMode(false) }} onSubmit={onSubmit} />
+                : <ProfileData isOwner={isOwner} goToEditMode={() => { setEditMode(true) }} />
+            } */}
+            {editMode
+                ? <ProfileDataForm outFromEditMode={() => { setEditMode(false) }} onSubmit={onSubmit} />
                 : <ProfileData isOwner={isOwner} goToEditMode={() => { setEditMode(true) }} />
             }
         </div>

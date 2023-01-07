@@ -6,7 +6,7 @@ import { actions } from '../../../redux/profile-reducer'
 import { useAppDispatch } from '../../../redux/redux-store'
 // import './MyPosts.css'
 import Post from './Post/Post'
-import { PostReduxForm } from './PostForm'
+import { PostForm } from './PostForm'
 
 export type AddPostValueType = {
     newPostBody: string
@@ -34,7 +34,7 @@ export const MyPosts: FC = memo(() => {
                 {language === 'english' ? 'My posts' : 'Мої пости'}
             </h3>
             <div className='post__actions'>
-                <PostReduxForm onSubmit={onAddPost} />
+                <PostForm onSubmit={onAddPost} />
             </div>
             <div className='posts'>
                 {postsElements}

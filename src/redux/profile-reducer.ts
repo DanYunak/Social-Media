@@ -9,7 +9,7 @@ let initialState = { //? Одноразовий об'єкт, у випадку �
         { id: 1, message: 'Hello', likes: 24 },
         { id: 2, message: 'Please visit my acc', likes: 0 },
         { id: 3, message: 'Are you OK?', likes: 5 },
-    ] as Array<PostType>,
+    ] as PostType[],
     profile: null as ProfileType | null,
     status: ''
 }

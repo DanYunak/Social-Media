@@ -1,6 +1,6 @@
-import { LikeOutlined, UserOutlined } from '@ant-design/icons';
+import { LikeOutlined, UserOutlined, LikeFilled } from '@ant-design/icons';
 import { Avatar } from 'antd';
-import { FC, memo } from 'react';
+import { FC, memo, useState } from 'react';
 import './Post.scss';
 
 type PropsType = {
@@ -9,6 +9,14 @@ type PropsType = {
 }
 
 const Post: FC<PropsType> = memo(({ message, likes }) => {
+
+    const [likesNum, setLikesNum] = useState(1)
+    const [isLike, setIsLike] = useState(false)
+
+    const toggleLike = () => {
+        setIsLike(!isLike)
+    }
+
     return (
         <div className='post'>
             <div className='post__avatar'>
@@ -18,8 +26,14 @@ const Post: FC<PropsType> = memo(({ message, likes }) => {
                 <div style={{ marginBottom: 10 }}>
                     {message}
                 </div>
-                <div>
-                    {likes} <LikeOutlined />
+                <div onClick={toggleLike}>
+                    {!isLike && <div onClick={() => setLikesNum(likesNum + 1)} >
+                        {likesNum} <LikeOutlined style={{ cursor: 'pointer' }} />
+                    </div>}
+                    {isLike && <div onClick={() => { setLikesNum(likesNum - 1) }}>
+                        {likesNum} <LikeFilled style={{ cursor: 'pointer' }} />
+                    </div>}
+                    {/* {likes} <LikeOutlined /> */}
                 </div>
             </div>
         </div>

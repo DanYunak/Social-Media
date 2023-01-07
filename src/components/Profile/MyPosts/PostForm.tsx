@@ -1,47 +1,56 @@
 import { Button, Input, Space } from 'antd'
-import { Formik } from 'formik'
-import { FC, memo } from 'react'
+import React, { FC, memo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { getLanguage } from '../../../redux/app-selectors'
 import { maxLengthCreator, minLengthCreator, required } from '../../../utils/validators/validators'
 import { Element } from '../../common/FormsControls/FormsControls'
 import { AddPostValueType } from './MyPosts'
-// import './MyPosts.css'
+import { Field, Form, Formik, useFormik } from 'formik'
 
 const maxLength100 = maxLengthCreator(100)
 const minLength2 = minLengthCreator(2)
 
-type PropsType = {}
 
-const { TextArea } = Input
+type PropsType = {
+    onSubmit: (values: AddPostValueType) => void
+}
 
-const PostForm: FC<InjectedFormProps<AddPostValueType, PropsType> & PropsType> = memo(({ handleSubmit }) => {
+export const PostForm: FC<PropsType> = memo((props) => {
+
     const language = useSelector(getLanguage)
 
     return (
-        <form onSubmit={handleSubmit} action='#'>
-            <div className='post__field'>
-                {language === 'english'
-                    ? <Field type={'text'} name={'newPostBody'}
-                        component={Element} elementType='textarea' placeholder='Enter the message'
-                        validate={[required, maxLength100, minLength2]} />
-                    : <Field type={'text'} name={'newPostBody'}
-                        component={Element} elementType='textarea' placeholder='Введіть повідомлення'
-                        validate={[required, maxLength100, minLength2]} />
-                }
-            </div>
-            <div>
-                <Space wrap>
-                    <Button type='primary' htmlType='submit' style={{ marginTop: 30 }}>
-                        {language === 'english' ? 'Add Post' : 'Додати пост'}
-                    </Button>
-                </Space>
-            </div>
-        </form>
+        <Formik initialValues={{ newPostBody: '' }}
+            validate={values => {
+                const errors = {}
+                return errors
+            }} onSubmit={(values, { resetForm }) => {
+                props.onSubmit(values)
+                resetForm()
+            }} >
+            {props => (
+                <Form onSubmit={props.handleSubmit}>
+                    <div className='post__field'>
+                        {language === 'english'
+                            ? <Field type='textarea' name='newPostBody'
+                                placeholder='Enter the message'
+                                validate={[required, maxLength100, minLength2]}
+                            />
+                            : <Field type='textarea' name='newPostBody'
+                                placeholder='Введіть повідомлення'
+                                validate={[required, maxLength100, minLength2]}
+                            />
+                        }
+                    </div>
+                    <div>
+                        <Space wrap>
+                            <Button type='primary' htmlType='submit' style={{ marginTop: 30 }}>
+                                {language === 'english' ? 'Add Post' : 'Додати пост'}
+                            </Button>
+                        </Space>
+                    </div>
+                </Form>
+            )}
+        </Formik>
     )
 })
-
-export const PostReduxForm = reduxForm<AddPostValueType, PropsType>({ form: 'profileAddNewPost' })(PostForm)
-
-export default PostForm    
