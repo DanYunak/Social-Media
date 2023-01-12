@@ -1,15 +1,11 @@
-import { Button, Input, Space } from 'antd'
-import React, { FC, memo, useState } from 'react'
+import { Button, Space } from 'antd'
+import TextArea from 'antd/es/input/TextArea'
+import { ErrorMessage, Form, Formik } from 'formik'
+import { FC, memo } from 'react'
 import { useSelector } from 'react-redux'
+import * as Yup from 'yup'
 import { getLanguage } from '../../../redux/app-selectors'
-import { maxLengthCreator, minLengthCreator, required } from '../../../utils/validators/validators'
-import { Element } from '../../common/FormsControls/FormsControls'
 import { AddPostValueType } from './MyPosts'
-import { Field, Form, Formik, useFormik } from 'formik'
-
-const maxLength100 = maxLengthCreator(100)
-const minLength2 = minLengthCreator(2)
-
 
 type PropsType = {
     onSubmit: (values: AddPostValueType) => void
@@ -19,28 +15,23 @@ export const PostForm: FC<PropsType> = memo((props) => {
 
     const language = useSelector(getLanguage)
 
+    const valigatePostSchema = Yup.object().shape({
+        newPostBody: Yup.string()
+            .min(2, 'Too Short!')
+            .max(200, 'Too Long!')
+    })
+
     return (
-        <Formik initialValues={{ newPostBody: '' }}
-            validate={values => {
-                const errors = {}
-                return errors
-            }} onSubmit={(values, { resetForm }) => {
-                props.onSubmit(values)
-                resetForm()
-            }} >
-            {props => (
-                <Form onSubmit={props.handleSubmit}>
+        <Formik initialValues={{ newPostBody: '' }} onSubmit={(values, { resetForm }) => {
+            props.onSubmit(values)
+            resetForm()
+        }} validationSchema={valigatePostSchema}>
+            {formik => (
+                <Form onSubmit={formik.handleSubmit}>
                     <div className='post__field'>
-                        {language === 'english'
-                            ? <Field type='textarea' name='newPostBody'
-                                placeholder='Enter the message'
-                                validate={[required, maxLength100, minLength2]}
-                            />
-                            : <Field type='textarea' name='newPostBody'
-                                placeholder='Введіть повідомлення'
-                                validate={[required, maxLength100, minLength2]}
-                            />
-                        }
+                        <TextArea rows={2} value={formik.values.newPostBody} onChange={formik.handleChange} name='newPostBody'
+                            placeholder={language === 'english' ? 'Enter the message' : 'Введіть повідомлення'} style={{ width: 250 }} />
+                        <ErrorMessage name='newPostBody' component='div' className='error__message' />
                     </div>
                     <div>
                         <Space wrap>

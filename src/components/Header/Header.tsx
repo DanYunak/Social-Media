@@ -3,46 +3,53 @@ import { Avatar, Button, Space } from 'antd'
 import axios from 'axios'
 import { FC, memo, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { changeLanguage } from '../../redux/app-reducer'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { authAPI } from '../../api/auth-api'
 import { getLanguage } from '../../redux/app-selectors'
 import { logout } from '../../redux/auth-reducer'
 import { getUserLogin } from '../../redux/auth-selectors'
-import { getAuthorizedId, getIsAuth } from '../../redux/profile-selectors'
+import { getAuthorizedId, getIsAuth, getProfile } from '../../redux/profile-selectors'
 import { useAppDispatch } from '../../redux/redux-store'
 import './Header.css'
 
-type GetPhotosResponseType = {
-    photos: {
-        small: string
-        large: string
-    }
+type PropsType = {
+    collapsedMenu: boolean
 }
 
-export const HeaderApp: FC = memo(() => {
-
+export const HeaderApp: FC<PropsType> = memo((props) => {
     const isAuth = useSelector(getIsAuth)
     const login = useSelector(getUserLogin)
     const authorizedId = useSelector(getAuthorizedId)
     const language = useSelector(getLanguage)
+    const profile = useSelector(getProfile)
 
     const dispatch = useAppDispatch()
 
+    const navigate = useNavigate()
+
+    const [smallUserPhoto, setSmallUserPhoto] = useState('')
+
     const logoutCallback = () => {
         dispatch(logout())
+
+        setSmallUserPhoto('')
+
+        navigate('/login')
     }
 
-    const [smallUserPhoto, setSmallUserPhoto] = useState<string>('')
+    const fetchSmallPhoto = async () => {
+        const smallPhoto = await authAPI.getSmallPhoto(authorizedId)
+        if (smallPhoto.small !== smallUserPhoto) {
+            setSmallUserPhoto(smallPhoto.small)
+        }
+    }
 
     useEffect(() => {
-        axios.get<GetPhotosResponseType>(`https://social-network.samuraijs.com/api/1.0/profile/${authorizedId}`)
-            .then(res => {
-                setSmallUserPhoto(res.data.photos.small)
-            })
-    }, [])
+        fetchSmallPhoto()
+    }, [profile])
 
     return (
-        <header className='header'>
+        <header className={!props.collapsedMenu ? 'header' : 'header__collapsed'}>
             <div className='login__block'>
                 <div className='user__img'>
                     {smallUserPhoto !== ''
@@ -58,21 +65,19 @@ export const HeaderApp: FC = memo(() => {
                         <div className='profile__name' style={{ color: 'white' }}>{login}</div>
                         {login
                             ? <Space wrap>
-                                {language === 'english' && <Button type='primary' onClick={logoutCallback} danger>Log Out</Button>}
-                                {language === 'ukrainian' && <Button type='primary' onClick={logoutCallback} danger>Вийти</Button>}
+                                <Button type='primary' onClick={logoutCallback} danger>
+                                    {language === 'english' ? 'Log Out' : 'Вийти'}
+                                </Button>
                             </Space>
                             : null}
                     </span>
                     : <Link to={'/login'}>
                         <Space wrap>
-                            {language === 'english' && <Button type='default' htmlType='submit' className='login__btn'>Log In</Button>}
-                            {language === 'ukrainian' && <Button type='default' htmlType='submit' className='login__btn'>Увійти</Button>}
+                            <Button type='default' htmlType='submit' className='login__btn'>
+                                {language === 'english' ? 'Log In' : 'Увійти'}
+                            </Button>
                         </Space>
                     </Link>}
-            </div>
-            <div className='change__language'>
-                {/* <Button type='default' disabled={language === 'english'} onClick={() => dispatch(changeLanguage('english'))}>Eng</Button> */}
-                {/* <Button type='default' disabled={language === 'ukrainian'} onClick={() => dispatch(changeLanguage('ukrainian'))}>Ukr</Button> */}
             </div>
         </header >
     )

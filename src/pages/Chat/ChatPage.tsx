@@ -1,4 +1,5 @@
 import { Button } from 'antd'
+import TextArea from 'antd/es/input/TextArea'
 import React, { FC, memo, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -117,7 +118,8 @@ const AddMessageForm: FC = memo(() => {
 
     return (
         <div>
-            <textarea onChange={(e) => setMessage(e.currentTarget.value)} value={message}></textarea>
+            {/* <textarea onChange={(e) => setMessage(e.currentTarget.value)} value={message}></textarea> */}
+            <TextArea onChange={(e) => setMessage(e.currentTarget.value)} value={message} style={{ width: 250, marginTop: 10 }} rows={2} />
             <Button type='primary' htmlType='submit' onClick={sendMessageHandler}
                 disabled={status !== 'ready'}
                 style={{ marginLeft: 20 }}>{language === 'english' ? 'Send' : 'Надіслати'}</Button>

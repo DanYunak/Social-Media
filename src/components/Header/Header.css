@@ -4,7 +4,16 @@
   display: flex;
   align-items: center;
   justify-content: end;
-  width: 80%;
+  width: 82%;
+}
+
+.header__collapsed {
+  position: absolute;
+  line-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 90%;
 }
 
 .login__block {

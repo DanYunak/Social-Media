@@ -1,6 +1,6 @@
 import {
   CustomerServiceOutlined,
-  HomeOutlined, MessageOutlined, NotificationOutlined, SettingOutlined, TeamOutlined, WechatOutlined
+  HomeOutlined, NotificationOutlined, SettingOutlined, TeamOutlined, WechatOutlined
 } from '@ant-design/icons'
 import { Layout, Menu, MenuProps, theme } from 'antd'
 import React, { FC, memo, Suspense, useEffect, useState } from 'react'
@@ -109,13 +109,13 @@ const App: FC = memo(() => {
       </Sider>
       <Layout className='site-layout'>
         <Header style={{ height: 85 }}>
-          <HeaderApp />
+          <HeaderApp collapsedMenu={collapsed} />
         </Header>
         <Content style={{ margin: '0 16px' }}>
           <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
             <Suspense fallback={<Preloader />}>
               <Routes>
-                <Route path='/' element={<Navigate to='/profile' />} />
+                <Route path='/yun' element={<Navigate to='/profile' />} />
                 <Route path='/profile/:userIdde' element={<ProfilePage />} />
                 <Route path='/profile/' element={<ProfilePage />} />
                 <Route path='/dialogs/*' element={<Dialogs />} />

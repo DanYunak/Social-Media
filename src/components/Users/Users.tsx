@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { FC, memo, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { createSearchParams, useLocation, useNavigate } from 'react-router-dom'
@@ -8,7 +9,13 @@ import Paginator from '../common/Paginator/Paginator'
 import User from './User'
 import './Users.css'
 import { UsersSearchForm } from './UsersSearchForm'
+import { UserType } from '../../redux/types/types'
 
+type GetItemsType = {
+    items: UserType[]
+    totalCount: number
+    error: string | null
+}
 
 const Users: FC = memo(() => {
 
@@ -24,6 +31,7 @@ const Users: FC = memo(() => {
     useEffect(() => {
         dispatch(requestUsers(currentPage, pageSize, filter))
     }, [])
+    
 
     const useNavigateSearch = () => {
         const navigate = useNavigate()

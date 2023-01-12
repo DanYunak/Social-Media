@@ -13,6 +13,13 @@ type LoginResponseDataType = {
 type LogoutResponseDataType = {
 }
 
+type GetPhotosResponseType = {
+    photos: {
+        small: string
+        large: string
+    }
+}
+
 export const authAPI = {
     me() {
         return instance.get<APIResponseType<MeResponseDataType>>(`auth/me`).then(res => res.data)
@@ -24,7 +31,10 @@ export const authAPI = {
     },
     logout() {
         return instance.delete<APIResponseType<LogoutResponseDataType>>('auth/login').then(res => res.data)
-    } 
+    },
+    getSmallPhoto(authorizedId: number | null) {
+        return instance.get<GetPhotosResponseType>(`https://social-network.samuraijs.com/api/1.0/profile/${authorizedId}`).then(res => res.data.photos)
+    }
 }
 
 type CaptchaUrlResponseType = {

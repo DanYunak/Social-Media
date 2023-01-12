@@ -1,3 +1,6 @@
+import { UploadOutlined } from '@ant-design/icons'
+import { Input, UploadProps } from 'antd'
+import { Button, message, Upload } from 'antd'
 import { ChangeEvent, FC, memo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { savePhoto, saveProfile } from '../../../redux/profile-reducer'
@@ -51,15 +54,10 @@ export const ProfileInfo: FC<PropsType> = memo(({ isOwner }) => {
                     <img src={profile.photos.large || userImg} width='150' height='150' alt='' />
                 </div>
                 <div className='avatar__change'>
-                    {isOwner && <input type={'file'} onChange={onMainPhotoSelected}></input>}
+                    {isOwner && <Input type={'file'} onChange={onMainPhotoSelected} style={{ width: 200 }} />}
                 </div>
                 <ProfileStatus isOwner={isOwner} />
             </div>
-            {/* {editMode
-                ? <ProfileDataFormRedux initialValues={profile} profile={profile}
-                    outFromEditMode={() => { setEditMode(false) }} onSubmit={onSubmit} />
-                : <ProfileData isOwner={isOwner} goToEditMode={() => { setEditMode(true) }} />
-            } */}
             {editMode
                 ? <ProfileDataForm outFromEditMode={() => { setEditMode(false) }} onSubmit={onSubmit} />
                 : <ProfileData isOwner={isOwner} goToEditMode={() => { setEditMode(true) }} />

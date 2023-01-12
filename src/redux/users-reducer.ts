@@ -28,7 +28,6 @@ export const usersReducer = (state = initialState, action: ActionsTypes): Initia
         case 'USERS/FOLLOW':
             return {
                 ...state,
-                // users: updateObjInArray(state.users, action.userId, 'id', { followed: true })
                 users: state.users.map(u => { //* Map створює масив на основі минулого масиву, це хороший варіант для зміни даних, для додавання чогось в масив map можна не використовувати, а просто копіювати масив
                     if (u.id === action.userId) { //* Коли map пробігається по масиву і в елементі є action.userId (action при якому потрібно зафоловити користувача, ф-ція внизу в експорті)
                         return { ...u, followed: true } //* Якщо id співпадає то повертає копію і змінює стан підписки, якщо ні, то повертає оригінал без змін
@@ -40,7 +39,6 @@ export const usersReducer = (state = initialState, action: ActionsTypes): Initia
         case 'USERS/UNFOLLOW':
             return {
                 ...state,
-                // users: updateObjInArray(state.users, action.userId, 'id', { followed: false })
                 users: state.users.map(u => {
                     if (u.id === action.userId) {
                         return { ...u, followed: false }

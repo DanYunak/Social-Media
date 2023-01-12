@@ -5,8 +5,16 @@ textarea {
   margin-top: 5px;
 }
 
-.form__error {
-  border: 3px solid red;
-  padding: 20px;
-  margin-top: 40px;
+.error__message_profile {
+  color: #f02849;
+  font-family: SFProText-Regular, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 8px;
+  margin-top: 8px;
+  text-align: left;
+  margin-left: 5px;
+}
+
+.input__field {
+  width: 250px;
 }/*# sourceMappingURL=ProfileDataForm.css.map */

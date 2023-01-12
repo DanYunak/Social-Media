@@ -1,10 +1,11 @@
-import { Button } from 'antd'
-import { Field, Form, Formik } from 'formik'
+import { Button, Checkbox, Input } from 'antd'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { FC, memo } from 'react'
 import { useSelector } from 'react-redux'
 import { getLanguage } from '../../../redux/app-selectors'
 import { getProfile } from '../../../redux/profile-selectors'
 import { ProfileType } from '../../../redux/types/types'
+import * as Yup from 'yup'
 import './ProfileDataForm.css'
 
 export type ContactsTypeKey = {
@@ -26,44 +27,47 @@ export const ProfileDataForm: FC<PropsType> = memo(({ outFromEditMode, onSubmit 
     const language = useSelector(getLanguage)
     const profile = useSelector(getProfile)
 
-    const profileDataFormValidate = (values: any) => {
-        const errors = {}
-        return errors
-    }
+    const valigateSchema = Yup.object().shape({
+        fullname: Yup.string()
+            .min(1, 'Too Short!')
+            .max(20, 'Too Long!')
+            .required('Required'),
+        lookingForAJobDescription: Yup.string()
+            .min(3, 'Too Short!')
+            .max(100, 'Too Long!'),
+        aboutMe: Yup.string()
+            .min(3, 'Too Short!')
+            .max(100, 'Too Long!'),
+    })
 
     return (
         // @ts-ignore
-        <Formik initialValues={{ fullName: '', lookingForAJobDescription: '', aboutMe: '' }}
-            validate={values => {
-                const errors = {}
-                return errors
-            }} onSubmit={onSubmit} >
-            {props => (
-                <Form onSubmit={props.handleSubmit}>
-                    <div className='profile__fullname info'><span>
-                        {language === 'english' ? 'Fullname' : `Повне ім'я`}:
-                    </span>
-                        <Field type='text' name='fullname' />
+        <Formik initialValues={{ fullName: '', lookingForAJob: false, lookingForAJobDescription: '', aboutMe: '' }}
+            validationSchema={valigateSchema} onSubmit={onSubmit} >
+            {formik => (
+                <Form onSubmit={formik.handleSubmit}>
+                    <div className='profile__fullname info'>
+                        <Input onChange={formik.handleChange} onBlur={formik.handleBlur} name='fullname'
+                            placeholder={language === 'english' ? 'Fullname' : `Повне ім'я`} className='input__field' />
+                        <ErrorMessage name='fullname' component='div' className='error__message_profile' />
                     </div>
                     <div className='profile__job info'>
                         <div className='job__category'>{language === 'english' ? 'Job' : 'Робота'}:
                             <div className='profile__job_looking info' style={{ display: 'flex' }}>
                                 <span style={{ color: 'black', fontWeight: '600' }}>
-                                    {language === 'english' ? 'Looking' : 'В пошуках роботи'}:
+                                    {language === 'english' ? 'Looking for a job' : 'В пошуках роботи'}:
                                 </span>
-                                <Field type='checkbox' name='lookingForAJob' />
+                                <Checkbox onChange={formik.handleChange} name='lookingForAJob' style={{ marginLeft: 10 }} />
                             </div>
                             <div className='profile__job_description info'>
-                                <span style={{ color: 'black', fontWeight: '600' }}>
-                                    {language === 'english' ? 'My skills' : 'Мої скіли'}:
-                                </span>
-                                <Field type='text' name='LookingForAJobDescription' />
+                                <Input onChange={formik.handleChange} onBlur={formik.handleBlur} name='lookingForAJobDescription'
+                                    placeholder={language === 'english' ? 'Looking for a job description' : 'Опис шуканої роботи'} className='input__field' />
+                                <ErrorMessage name='lookingForAJobDescription' component='div' className='error__message_profile' />
                             </div>
                             <div className='profile__aboutMe info'>
-                                <span style={{ color: 'black', fontWeight: '600' }}>
-                                    {language === 'english' ? 'About me' : 'Про мене'}:
-                                </span>
-                                <Field type='text' name='AboutMe' />
+                                <Input onChange={formik.handleChange} onBlur={formik.handleBlur} name='aboutMe'
+                                    placeholder={language === 'english' ? 'About me' : 'Про мене'} className='input__field' />
+                                <ErrorMessage name='aboutMe' component='div' className='error__message_profile' />
                             </div>
                         </div>
                     </div>
@@ -76,7 +80,8 @@ export const ProfileDataForm: FC<PropsType> = memo(({ outFromEditMode, onSubmit 
                                     return (
                                         <div className='contacts' key={key}>
                                             <span style={{ color: 'black' }}>{key}:
-                                                <Field type={key} name={`contacts.${key}`} />
+                                                <Input onChange={formik.handleChange} onBlur={formik.handleBlur} name={`contacts.${key}`}
+                                                    className='input__field' type={key} style={{marginLeft: 10, marginTop: 10}} />
                                             </span>
                                         </div>
                                     )
@@ -85,7 +90,7 @@ export const ProfileDataForm: FC<PropsType> = memo(({ outFromEditMode, onSubmit 
                     <Button type='primary' danger htmlType='submit' onClick={outFromEditMode} style={{ marginRight: 30 }}>
                         {language === 'english' ? 'Back' : 'Назад'}
                     </Button>
-                    <Button type='primary' htmlType='submit' disabled={props.isSubmitting} >
+                    <Button type='primary' htmlType='submit' disabled={formik.isSubmitting} >
                         {language === 'english' ? 'Save' : 'Зберегти'}
                     </Button>
                 </Form>

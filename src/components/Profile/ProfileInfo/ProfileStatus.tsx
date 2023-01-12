@@ -1,3 +1,4 @@
+import { Input } from 'antd'
 import { FC, memo, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getLanguage } from '../../../redux/app-selectors'
@@ -23,7 +24,7 @@ export const ProfileStatus: FC<PropsType> = memo(({ isOwner }) => {
         setUserStatus(status)
     }, [status])
 
-    const activaEditMode = () => {
+    const activateEditMode = () => {
         setEditMode(true)
     }
 
@@ -41,40 +42,29 @@ export const ProfileStatus: FC<PropsType> = memo(({ isOwner }) => {
             {!editMode &&
                 <div className='profile__status info'>
                     {isOwner
-                        ? <span onDoubleClick={activaEditMode}>
-                            {language === 'english' &&
-                                <>
-                                    <b>Status:</b>
-                                    <span className='status'> {status || 'none'} </span>
-                                </>
-                            }
-                            {language === 'ukrainian' &&
-                                <>
-                                    <b>Статус:</b>
-                                    <span className='status'> {status || 'відсутній'} </span>
-                                </>
-                            }
+                        ? <span onDoubleClick={activateEditMode}>
+                            <>
+                                <b>{language === 'english' ? 'Status' : 'Статус'}:</b>
+                                <span className='status' style={{ marginLeft: 5 }}>
+                                    {language === 'english' ? status || 'none' : status || 'відсутній'}
+                                </span>
+                            </>
                         </span>
                         : <span>
-                            {language === 'english' &&
-                                <>
-                                    <b>Status:</b>
-                                    <span className='status'> {status || 'none'} </span>
-                                </>
-                            }
-                            {language === 'ukrainian' &&
-                                <>
-                                    <b>Статус:</b>
-                                    <span className='status'> {status || 'відсутній'} </span>
-                                </>
-                            }
+                            <>
+                                <b>{language === 'english' ? 'Status' : 'Статус'}:</b>
+                                <span className='status' style={{ marginLeft: 5 }}>
+                                    {language === 'english' ? status || 'none' : status || 'відсутній'}
+                                </span>
+                            </>
                         </span>
                     }
                 </div>
             }
             {editMode &&
                 <div>
-                    <input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode} value={userStatus} />
+                    <Input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode}
+                        value={userStatus} style={{ width: 250, marginTop: 15 }} />
                 </div>
             }
         </div>
