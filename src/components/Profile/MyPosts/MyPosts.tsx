@@ -1,10 +1,9 @@
 import { FC, memo } from 'react'
 import { useSelector } from 'react-redux'
-import { getLanguage } from '../../../redux/app-selectors'
-import { getPostsData } from '../../../redux/myPosts-selectors'
-import { actions } from '../../../redux/profile-reducer'
+import { actions } from '../../../redux/reducers/profile-reducer'
 import { useAppDispatch } from '../../../redux/redux-store'
-// import './MyPosts.css'
+import { getLanguage } from '../../../redux/selectors/app-selectors'
+import { getPostsData } from '../../../redux/selectors/myPosts-selectors'
 import Post from './Post/Post'
 import { PostForm } from './PostForm'
 

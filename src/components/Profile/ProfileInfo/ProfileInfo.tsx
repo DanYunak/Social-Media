@@ -1,11 +1,9 @@
-import { UploadOutlined } from '@ant-design/icons'
-import { Input, UploadProps } from 'antd'
-import { Button, message, Upload } from 'antd'
+import { Input } from 'antd'
 import { ChangeEvent, FC, memo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { savePhoto, saveProfile } from '../../../redux/profile-reducer'
-import { getProfile } from '../../../redux/profile-selectors'
+import { actions } from '../../../redux/reducers/profile-reducer'
 import { useAppDispatch } from '../../../redux/redux-store'
+import { getProfile } from '../../../redux/selectors/profile-selectors'
 import { ProfileType } from '../../../redux/types/types'
 import Preloader from '../../common/Preloader/Preloader'
 import { ProfileData } from './ProfileData'
@@ -32,19 +30,15 @@ export const ProfileInfo: FC<PropsType> = memo(({ isOwner }) => {
         )
     }
 
-    let onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
+    const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.length) {
-            dispatch(savePhoto(e.target.files[0]))
+            dispatch(actions.savePhoto(e.target.files[0]))
         }
     }
 
     const onSubmit = async (formData: ProfileType) => {
-        // todo: remove then
-        // @ts-ignore
-        dispatch(saveProfile(formData)).then(() => {
-            setEditMode(false) //* Якщо всі дані будуть введені правильно і помилок не буде - режим редагування виключиться, якщо ні то виведеться помилка під формою
-        }
-        )
+        dispatch(actions.saveProfile(formData))
+        setEditMode(false)
     }
 
     return (

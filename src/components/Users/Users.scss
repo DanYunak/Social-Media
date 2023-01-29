@@ -12,12 +12,9 @@
     }
     
     span {
-        // display: flex;
+        display: flex;
         flex-direction: column;
-        // margin-right: 10px;
-        align-items: center;
         justify-content: center;
-        display: inline-flex;
         align-items: center;
     }
 
@@ -48,15 +45,17 @@
         font-weight: 700;
         margin-top: 25px;
     }
+
     &__name {
         font-weight: 700;
-        margin-bottom: 20px;
+        margin-top: 10px;
         a {
             color: blue;
         }
     }
     &__status {
         font-size: 20px;
+        margin-top: 10px;
     }
 }
 

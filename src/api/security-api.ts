@@ -1,6 +1,6 @@
-import { instance } from './api';
+import { instance } from './api'
 
-type CaptchaUrlResponseType = {
+export type CaptchaUrlResponseType = {
     url: string
 }
 

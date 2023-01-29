@@ -1,7 +1,5 @@
-import { getAuthorizedId } from './../redux/profile-selectors';
-import { useSelector } from 'react-redux';
-import { ProfileType } from './../redux/types/types'
-import { ResultCodesEnum, instance, APIResponseType } from './api'
+import { ProfileType } from './../redux/types/types';
+import { APIResponseType, instance, ResultCodesEnum } from './api';
 
 
 type UpdateStatusDataType = {
@@ -14,7 +12,7 @@ type SaveProfileResponseType = {
     data: ProfileType
 }
 
-type SavePhotoDataType = {
+export type SavePhotoDataType = {
     photos: {
         small: string
         large: string

@@ -2,9 +2,9 @@ import { Button } from 'antd'
 import { FC, memo } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
-import { changeLanguage } from '../../redux/app-reducer'
-import { getLanguage } from '../../redux/app-selectors'
+import { actionsApp } from '../../redux/reducers/app-reducer'
 import { useAppDispatch } from '../../redux/redux-store'
+import { getLanguage } from '../../redux/selectors/app-selectors'
 
 type PropsType = {
     path: string
@@ -21,14 +21,14 @@ export const ChangeLanguage: FC<PropsType> = memo((props) => {
     return (
         <div>
             <Button type='default' disabled={language === 'english'} onClick={() => {
-                dispatch(changeLanguage('english'))
+                dispatch(actionsApp.changeLanguage('english'))
                 navigate(props.path)
             }} style={{ marginLeft: 15, marginRight: 10 }}>
                 Eng
                 <span style={{ marginLeft: 5 }}>🇬🇧</span>
             </Button>
             <Button type='default' disabled={language === 'ukrainian'} onClick={() => {
-                dispatch(changeLanguage('ukrainian'))
+                dispatch(actionsApp.changeLanguage('ukrainian'))
                 navigate(props.path)
             }}>
                 Ukr

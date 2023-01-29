@@ -4,8 +4,8 @@ import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { FC, memo } from 'react'
 import { useSelector } from 'react-redux'
 import * as Yup from 'yup'
-import { getLanguage } from '../../redux/app-selectors'
-import { FilterType } from '../../redux/users-reducer'
+import { getLanguage } from '../../redux/selectors/app-selectors'
+import { FilterType } from '../../redux/reducers/users-reducer'
 import './Users'
 
 type PropsType = {

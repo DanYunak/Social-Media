@@ -1,6 +1,6 @@
-import { InferActionsTypes } from './redux-store'
-import { DialogType } from './types/types'
-import { MessageType } from './types/types'
+import { InferActionsTypes } from '../redux-store'
+import { DialogType } from '../types/types'
+import { MessageType } from '../types/types'
 
 let initialState = { //? Одноразовий об'єкт, у випадку яку в profileReducer не прийде state, то він ним і буде локально, щоб не видавало помилку
     dialogsData: [

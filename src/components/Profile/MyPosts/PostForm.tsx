@@ -4,7 +4,7 @@ import { ErrorMessage, Form, Formik } from 'formik'
 import { FC, memo } from 'react'
 import { useSelector } from 'react-redux'
 import * as Yup from 'yup'
-import { getLanguage } from '../../../redux/app-selectors'
+import { getLanguage } from '../../../redux/selectors/app-selectors'
 import { AddPostValueType } from './MyPosts'
 
 type PropsType = {

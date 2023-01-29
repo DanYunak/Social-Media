@@ -1,9 +1,10 @@
-import { updateObjInArray } from './../utils/object-helpers'
+import { FOLLOW, FOLLOW_SUCCESS, UNFOLLOW, UNFOLLOW_SUCCESS, SET_USERS, REQUEST_USERS, SET_CURRENT_PAGE, SET_FILTER, TOGGLE_IS_FETCHING, TOGGLE_IS_FOLLOWING_PROGRESS, SET_TOTAL_USERS_COUNT } from './constants';
+import { updateObjInArray } from '../../utils/object-helpers'
 import { Dispatch } from 'react'
-import { APIResponseType, ResultCodesEnum } from '../api/api'
-import { usersAPI } from '../api/users-api'
-import { InferActionsTypes, BaseThunkType } from './redux-store'
-import { UserType } from './types/types'
+import { APIResponseType, ResultCodesEnum } from '../../api/api'
+import { usersAPI } from '../../api/users-api'
+import { InferActionsTypes, BaseThunkType } from '../redux-store'
+import { UserType } from '../types/types'
 
 const initialState = {
     users: [] as Array<UserType>,
@@ -21,11 +22,10 @@ const initialState = {
 export type InitialStateType = typeof initialState
 export type FilterType = typeof initialState.filter
 
-type ThunkType = BaseThunkType<ActionsTypes>
 
 export const usersReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case 'USERS/FOLLOW':
+        case 'USERS/FOLLOW_SUCCESS':
             return {
                 ...state,
                 users: state.users.map(u => { //* Map створює масив на основі минулого масиву, це хороший варіант для зміни даних, для додавання чогось в масив map можна не використовувати, а просто копіювати масив
@@ -36,7 +36,7 @@ export const usersReducer = (state = initialState, action: ActionsTypes): Initia
                 })
             }
 
-        case 'USERS/UNFOLLOW':
+        case 'USERS/UNFOLLOW_SUCCESS':
             return {
                 ...state,
                 users: state.users.map(u => {
@@ -92,74 +92,33 @@ export const usersReducer = (state = initialState, action: ActionsTypes): Initia
 type ActionsTypes = InferActionsTypes<typeof actions>
 
 export const actions = {
-    followSuccess: (userId: number) => ({ type: 'USERS/FOLLOW', userId } as const),
+    follow: (userId: number) => ({ type: FOLLOW, userId } as const),
+    followSuccess: (userId: number) => ({ type: FOLLOW_SUCCESS, userId } as const),
 
-    unfollowSuccess: (userId: number) => ({ type: 'USERS/UNFOLLOW', userId } as const),
+    unfollow: (userId: number) => ({ type: UNFOLLOW, userId } as const),
+    unfollowSuccess: (userId: number) => ({ type: UNFOLLOW_SUCCESS, userId } as const),
 
-    setUsers: (users: Array<UserType>) => ({ type: 'USERS/SET_USERS', users } as const),
+    requestUsers: (page: number, pageSize: number, filter: FilterType) => ({
+        type: REQUEST_USERS,
+        payload: { page, pageSize, filter }
+    } as const),
+    setUsers: (users: Array<UserType>) => ({ type: SET_USERS, users } as const),
 
-    setCurrentPage: (currentPage: number) => ({ type: 'USERS/SET_CURRENT_PAGE', currentPage } as const),
+    setCurrentPage: (currentPage: number) => ({ type: SET_CURRENT_PAGE, currentPage } as const),
 
-    setFilter: (filter: FilterType) => ({ type: 'USERS/SET_FILTER', payload: filter } as const),
+    setFilter: (filter: FilterType) => ({ type: SET_FILTER, payload: filter } as const),
 
-    toggleIsFetching: (isFetching: boolean) => ({ type: 'USERS/TOGGLE_IS_FETCHING', isFetching } as const),
+    toggleIsFetching: (isFetching: boolean) => ({ type: TOGGLE_IS_FETCHING, isFetching } as const),
 
     toggleIsFollowingProgress: (isFetching: boolean, userId: number) => ({
-        type: 'USERS/TOGGLE_IS_FOLLOWING_PROGRESS', isFetching, userId
+        type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId
     } as const),
-
+    
     setTotalUsersCount: (usersTotalCount: number) => ({
-        type: 'USERS/SET_TOTAL_USERS_COUNT', usersTotalCount
+        type: SET_TOTAL_USERS_COUNT, usersTotalCount
     } as const)
 }
 
-
-
-//* =================================================================================================================
-
-
-
-//* THUNKS ==================================================================================================================
-
-type DispatchType = Dispatch<ActionsTypes>
-
-export const requestUsers = (page: number,
-    pageSize: number, filter: FilterType): ThunkType => async (dispatch) => {
-
-        let data = await usersAPI.getUsers(page, pageSize, filter.term, filter.friend)
-
-        dispatch(actions.toggleIsFetching(true))
-        dispatch(actions.setCurrentPage(page))
-        dispatch(actions.setFilter(filter))
-
-        dispatch(actions.toggleIsFetching(false))
-        dispatch(actions.setUsers(data.items))
-        dispatch(actions.setTotalUsersCount(data.totalCount))
-    }
-
-// _ в назві означає, що це допоміжна ф-ція, її не можна типізувати як санки
-const _followUnfollowFlow = async (dispatch: DispatchType, userId: number,
-    apiMethod: (userId: number) => Promise<APIResponseType>,
-    actionCreator: (userId: number) => ActionsTypes) => {
-
-    dispatch(actions.toggleIsFollowingProgress(true, userId))
-
-    let response = await apiMethod(userId)
-    if (response.resultCode === ResultCodesEnum.Success) {
-        dispatch(actionCreator(userId))
-    }
-    dispatch(actions.toggleIsFollowingProgress(false, userId))
-}
-
-export const follow = (userId: number): ThunkType => async (dispatch) => {
-    await _followUnfollowFlow(dispatch, userId, usersAPI.follow.bind(usersAPI), actions.followSuccess)
-}
-
-export const unfollow = (userId: number): ThunkType => async (dispatch) => {
-    await _followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), actions.unfollowSuccess)
-}
-
-//* ===================================================================================================================
-
+//* ===============================================================================================================================================
 
 export default usersReducer

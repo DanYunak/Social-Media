@@ -2,8 +2,8 @@ import { Button, Checkbox, Input } from 'antd'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { FC, memo } from 'react'
 import { useSelector } from 'react-redux'
-import { getLanguage } from '../../../redux/app-selectors'
-import { getProfile } from '../../../redux/profile-selectors'
+import { getLanguage } from '../../../redux/selectors/app-selectors'
+import { getProfile } from '../../../redux/selectors/profile-selectors'
 import { ProfileType } from '../../../redux/types/types'
 import * as Yup from 'yup'
 import './ProfileDataForm.css'
@@ -28,7 +28,7 @@ export const ProfileDataForm: FC<PropsType> = memo(({ outFromEditMode, onSubmit 
     const profile = useSelector(getProfile)
 
     const valigateSchema = Yup.object().shape({
-        fullname: Yup.string()
+        fullName: Yup.string()
             .min(1, 'Too Short!')
             .max(20, 'Too Long!')
             .required('Required'),
@@ -47,9 +47,9 @@ export const ProfileDataForm: FC<PropsType> = memo(({ outFromEditMode, onSubmit 
             {formik => (
                 <Form onSubmit={formik.handleSubmit}>
                     <div className='profile__fullname info'>
-                        <Input onChange={formik.handleChange} onBlur={formik.handleBlur} name='fullname'
+                        <Input onChange={formik.handleChange} onBlur={formik.handleBlur} name='fullName'
                             placeholder={language === 'english' ? 'Fullname' : `Повне ім'я`} className='input__field' />
-                        <ErrorMessage name='fullname' component='div' className='error__message_profile' />
+                        <ErrorMessage name='fullName' component='div' className='error__message_profile' />
                     </div>
                     <div className='profile__job info'>
                         <div className='job__category'>{language === 'english' ? 'Job' : 'Робота'}:

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { getLanguage } from '../../redux/app-selectors'
+import { getLanguage } from '../../redux/selectors/app-selectors'
 import { ChangeLanguage } from '../Language/ChangeLanguage'
 import './Settings.css'
 

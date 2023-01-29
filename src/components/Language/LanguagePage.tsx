@@ -1,6 +1,6 @@
 import { FC, memo, useEffect } from 'react'
 import { useNavigate } from 'react-router'
-import { languageParse } from '../../redux/app-reducer'
+import { languageParse } from '../../redux/reducers/app-reducer'
 import { ChangeLanguage } from './ChangeLanguage'
 import './LanguagePage.css'
 

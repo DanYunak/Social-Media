@@ -1,14 +1,13 @@
 import { Button, Checkbox, Space } from 'antd'
 import { ErrorMessage, Field, Formik } from 'formik'
-import { FC, memo } from 'react'
+import { FC, memo, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
-import { login } from '../../redux/auth-reducer'
-import { getCaptchaUrlSelector } from '../../redux/login-selectors'
-import { getIsAuth } from '../../redux/profile-selectors'
+import { actions } from '../../redux/reducers/auth-reducer'
 import { useAppDispatch } from '../../redux/redux-store'
-import { maxLengthCreator, minLengthCreator } from '../../utils/validators/validators'
+import { getCaptchaUrlSelector } from '../../redux/selectors/login-selectors'
+import { getIsAuth } from '../../redux/selectors/profile-selectors'
 import './Login.css'
 
 type LoginFormValuesType = {
@@ -28,12 +27,14 @@ export const LoginPage: FC = memo(() => {
     const navigate = useNavigate()
 
     const onSubmit = (formData: LoginFormValuesType) => {
-        dispatch(login(formData.email, formData.password, formData.rememberMe, formData.captcha))
+        dispatch(actions.login(formData.email, formData.password, formData.rememberMe, formData.captcha))
     }
 
-    if (isAuth) {
-        navigate('/profile')
-    }
+    useEffect(() => {
+        if (isAuth) {
+            navigate('/profile')
+        }
+    }, [isAuth])
 
     return (
         <div className='login'>

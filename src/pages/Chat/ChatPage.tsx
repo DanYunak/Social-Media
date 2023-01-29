@@ -2,12 +2,12 @@ import { Button } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
 import React, { FC, memo, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { getLanguage } from '../../redux/app-selectors'
-import { sendMessage, startMessagesListening, stopMessagesListening } from '../../redux/chat-reducer'
-import { getMessages, getStatus } from '../../redux/chat-selectors'
-import { getAuthorizedId } from '../../redux/profile-selectors'
+import { Link, useNavigate } from 'react-router-dom'
+import { actions, sendMessage, startMessagesListening, stopMessagesListening } from '../../redux/reducers/chat-reducer'
 import { useAppDispatch } from '../../redux/redux-store'
+import { getLanguage } from '../../redux/selectors/app-selectors'
+import { getMessages, getStatus } from '../../redux/selectors/chat-selectors'
+import { getAuthorizedId, getIsAuth } from '../../redux/selectors/profile-selectors'
 
 
 export type ChatMessageAPIType = {
@@ -23,10 +23,14 @@ export const ChatPage: FC = memo(() => {
     )
 })
 
+
 const Chat: FC = memo(() => {
     const dispatch = useAppDispatch()
 
     const status = useSelector(getStatus)
+    const isAuth = useSelector(getIsAuth)
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         dispatch(startMessagesListening())
@@ -34,6 +38,12 @@ const Chat: FC = memo(() => {
             dispatch(stopMessagesListening())
         })
     }, [])
+
+    useEffect(() => {
+        if (!isAuth) {
+            navigate('/login')
+        }
+    }, [isAuth])
 
     return (
         <div>
@@ -53,16 +63,16 @@ const Message: FC<{ message: ChatMessageAPIType }> = memo(({ message }) => {
 
     return (
         <div style={{ marginTop: 20, display: 'flex', alignItems: 'center' }}>
-                {message.userId !== authorizedId
-                    ? <Link to={`/profile/${message.userId}` }>
-                        <img src={message.photo} width='50' height='50' style={{ marginRight: 15 }} />
-                        <div>{message.userName}</div>
-                    </Link>
-                    : <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-                        <img src={message.photo} width='50' height='50' style={{ marginRight: 15 }} />
-                        <b style={{marginLeft: -40}}>{language === 'english' ? 'You' : 'Ви'}</b>
-                    </div>
-                }
+            {message.userId !== authorizedId
+                ? <Link to={`/profile/${message.userId}`}>
+                    <img src={message.photo} width='50' height='50' style={{ marginRight: 15 }} />
+                    <div>{message.userName}</div>
+                </Link>
+                : <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                    <img src={message.photo} width='50' height='50' style={{ marginRight: 15 }} />
+                    <b style={{ marginLeft: -40 }}>{language === 'english' ? 'You' : 'Ви'}</b>
+                </div>
+            }
             <br />
             {message.message}
         </div >
@@ -118,7 +128,6 @@ const AddMessageForm: FC = memo(() => {
 
     return (
         <div>
-            {/* <textarea onChange={(e) => setMessage(e.currentTarget.value)} value={message}></textarea> */}
             <TextArea onChange={(e) => setMessage(e.currentTarget.value)} value={message} style={{ width: 250, marginTop: 10 }} rows={2} />
             <Button type='primary' htmlType='submit' onClick={sendMessageHandler}
                 disabled={status !== 'ready'}

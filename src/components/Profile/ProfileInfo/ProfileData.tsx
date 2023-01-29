@@ -2,8 +2,8 @@ import { ChromeOutlined, FacebookOutlined, GithubOutlined, InstagramOutlined, Tw
 import { Button } from 'antd'
 import { FC, memo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getLanguage } from '../../../redux/app-selectors'
-import { getProfile } from '../../../redux/profile-selectors'
+import { getLanguage } from '../../../redux/selectors/app-selectors'
+import { getProfile } from '../../../redux/selectors/profile-selectors'
 import { ContactsType } from '../../../redux/types/types'
 
 export type ProfileDataPropsType = {

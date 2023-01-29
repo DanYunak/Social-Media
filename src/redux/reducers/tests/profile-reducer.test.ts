@@ -1,4 +1,4 @@
-import profileReducer, { actions, InitialStateType } from './profile-reducer'
+import profileReducer, { actions, InitialStateType } from '../profile-reducer'
 
 let state: InitialStateType
 

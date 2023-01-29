@@ -1,4 +1,4 @@
-import { AppStateType } from './redux-store'
+import { AppStateType } from '../redux-store'
 
 export const getUserFullName = (state: AppStateType) => {
     return state.profilePage.profile?.fullName

@@ -5,9 +5,9 @@ import {
     useNavigate,
     useParams
 } from 'react-router-dom'
-import { getStatus, getUserProfile } from '../../redux/profile-reducer'
-import { getAuthorizedId } from '../../redux/profile-selectors'
+import { actions } from '../../redux/reducers/profile-reducer'
 import { useAppDispatch } from '../../redux/redux-store'
+import { getAuthorizedId } from '../../redux/selectors/profile-selectors'
 import Profile from './Profile'
 
 export const ProfilePage: FC = memo(() => {
@@ -28,8 +28,8 @@ export const ProfilePage: FC = memo(() => {
             }
         }
 
-        dispatch(getUserProfile(userId))
-        dispatch(getStatus(userId))
+        dispatch(actions.getUserProfile(userId))
+        dispatch(actions.getStatus(userId))
     }
     const match = { params: useParams() }
     let userId = match.params.userIdde

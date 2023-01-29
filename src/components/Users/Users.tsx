@@ -1,15 +1,14 @@
-import axios from 'axios'
 import { FC, memo, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { createSearchParams, useLocation, useNavigate } from 'react-router-dom'
+import { actions, FilterType } from '../../redux/reducers/users-reducer'
 import { useAppDispatch } from '../../redux/redux-store'
-import { FilterType, follow, requestUsers, unfollow } from '../../redux/users-reducer'
-import { getCurrentPage, getFollowingInProgress, getPageSize, getTotalUsersCount, getUsers, getUsersFilter } from '../../redux/users-selectors'
+import { getCurrentPage, getFollowingInProgress, getPageSize, getTotalUsersCount, getUsers, getUsersFilter } from '../../redux/selectors/users-selectors'
+import { UserType } from '../../redux/types/types'
 import Paginator from '../common/Paginator/Paginator'
 import User from './User'
 import './Users.css'
 import { UsersSearchForm } from './UsersSearchForm'
-import { UserType } from '../../redux/types/types'
 
 type GetItemsType = {
     items: UserType[]
@@ -24,14 +23,13 @@ const Users: FC = memo(() => {
     const pageSize = useSelector(getPageSize)
     const currentPage = useSelector(getCurrentPage)
     const filter = useSelector(getUsersFilter)
-    const followingInProgress = useSelector(getFollowingInProgress)
 
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(requestUsers(currentPage, pageSize, filter))
+        dispatch(actions.requestUsers(currentPage, pageSize, filter))
     }, [])
-    
+
 
     const useNavigateSearch = () => {
         const navigate = useNavigate()
@@ -79,23 +77,15 @@ const Users: FC = memo(() => {
             default:
                 break
         }
-        dispatch(requestUsers(actualPage, pageSize, actualFilter))
+        dispatch(actions.requestUsers(actualPage, pageSize, actualFilter))
     }, [location.search])
 
     const onPageChanged = (pageNumber: number) => {
-        dispatch(requestUsers(pageNumber, pageSize, filter))
+        dispatch(actions.requestUsers(pageNumber, pageSize, filter))
     }
 
     const onFilterChanged = (filter: FilterType) => {
-        dispatch(requestUsers(1, pageSize, filter))
-    }
-
-    const onFollow = (userId: number) => {
-        dispatch(follow(userId))
-    }
-
-    const onUnfollow = (userId: number) => {
-        dispatch(unfollow(userId))
+        dispatch(actions.requestUsers(1, pageSize, filter))
     }
 
     return (
@@ -108,8 +98,7 @@ const Users: FC = memo(() => {
 
             {
                 users.map(u =>
-                    <User key={u.id} user={u} followingInProgress={followingInProgress}
-                        unfollow={onUnfollow} follow={onFollow} />
+                    <User key={u.id} user={u} />
                 )
             }
         </div>

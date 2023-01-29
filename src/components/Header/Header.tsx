@@ -1,15 +1,14 @@
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Button, Space } from 'antd'
-import axios from 'axios'
 import { FC, memo, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { authAPI } from '../../api/auth-api'
-import { getLanguage } from '../../redux/app-selectors'
-import { logout } from '../../redux/auth-reducer'
-import { getUserLogin } from '../../redux/auth-selectors'
-import { getAuthorizedId, getIsAuth, getProfile } from '../../redux/profile-selectors'
+import { actions } from '../../redux/reducers/auth-reducer'
 import { useAppDispatch } from '../../redux/redux-store'
+import { getLanguage } from '../../redux/selectors/app-selectors'
+import { getUserLogin } from '../../redux/selectors/auth-selectors'
+import { getAuthorizedId, getIsAuth, getProfile } from '../../redux/selectors/profile-selectors'
 import './Header.css'
 
 type PropsType = {
@@ -30,11 +29,9 @@ export const HeaderApp: FC<PropsType> = memo((props) => {
     const [smallUserPhoto, setSmallUserPhoto] = useState('')
 
     const logoutCallback = () => {
-        dispatch(logout())
+        dispatch(actions.logout(navigate))
 
         setSmallUserPhoto('')
-
-        navigate('/login')
     }
 
     const fetchSmallPhoto = async () => {

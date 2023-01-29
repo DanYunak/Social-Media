@@ -1,4 +1,4 @@
-import { LikeOutlined, UserOutlined, LikeFilled } from '@ant-design/icons';
+import { LikeFilled, LikeOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
 import { FC, memo, useState } from 'react';
 import './Post.scss';
@@ -33,7 +33,6 @@ const Post: FC<PropsType> = memo(({ message, likes }) => {
                     {isLike && <div onClick={() => { setLikesNum(likesNum - 1) }}>
                         {likesNum} <LikeFilled style={{ cursor: 'pointer' }} />
                     </div>}
-                    {/* {likes} <LikeOutlined /> */}
                 </div>
             </div>
         </div>

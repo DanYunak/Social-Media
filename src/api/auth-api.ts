@@ -1,12 +1,12 @@
-import { instance, APIResponseType } from './api'
+import { APIResponseType, instance } from './api'
 
-type MeResponseDataType = {
+export type MeResponseDataType = {
     id: number
     email: string
     login: string
 }
 
-type LoginResponseDataType = {
+export type LoginResponseDataType = {
     userId: number
 }
 
@@ -35,8 +35,4 @@ export const authAPI = {
     getSmallPhoto(authorizedId: number | null) {
         return instance.get<GetPhotosResponseType>(`https://social-network.samuraijs.com/api/1.0/profile/${authorizedId}`).then(res => res.data.photos)
     }
-}
-
-type CaptchaUrlResponseType = {
-    url: string
 }

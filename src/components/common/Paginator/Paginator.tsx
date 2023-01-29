@@ -1,8 +1,8 @@
+import { Button, Space } from 'antd'
 import { FC, memo, useState } from 'react'
-import './Paginator.css'
-import { Button, Pagination, Space } from 'antd'
 import { useSelector } from 'react-redux'
-import { getLanguage } from '../../../redux/app-selectors'
+import { getLanguage } from '../../../redux/selectors/app-selectors'
+import './Paginator.css'
 
 type PropsType = {
     totalUsersCount: number

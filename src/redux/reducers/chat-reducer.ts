@@ -1,11 +1,12 @@
-import { chatAPI, StatusType } from './../api/chat-api'
-import { ThunkType } from './types/types'
-import { InferActionsTypes } from './redux-store'
-import { ChatMessageAPIType } from './../pages/Chat/ChatPage'
+import { chatAPI, StatusType } from '../../api/chat-api'
+import { ThunkType } from '../types/types'
+import { InferActionsTypes } from '../redux-store'
+import { ChatMessageAPIType } from '../../pages/Chat/ChatPage'
 import { Dispatch } from 'redux'
 import { v1 } from 'uuid'
+import { MESSAGES_RECEIVED, SEND_MESSAGE, START_MESSAGES_LISTENING, STATUS_CHANGED, STOP_MESSAGES_LISTENING } from './constants'
 
-type ChatMessageType = ChatMessageAPIType & {id: string}
+export type ChatMessageType = ChatMessageAPIType & { id: string }
 
 const initialState = {
     messages: [] as ChatMessageType[],
@@ -21,7 +22,7 @@ export const chatReducer = (state = initialState, action: ActionsTypes): Initial
         case 'CHAT/MESSAGES_RECEIVED':
             return {
                 ...state,
-                messages: [...state.messages, ...action.payload.messages.map(m => ({...m, id: v1()}))]
+                messages: [...state.messages, ...action.payload.messages.map(m => ({ ...m, id: v1() }))]
                     .filter((m, index, array) => index >= array.length - 100)
             }
         case 'CHAT/STATUS_CHANGED':
@@ -38,8 +39,11 @@ export const chatReducer = (state = initialState, action: ActionsTypes): Initial
 type ActionsTypes = InferActionsTypes<typeof actions>
 
 export const actions = {
-    messagesReceived: (messages: ChatMessageAPIType[]) => ({ type: 'CHAT/MESSAGES_RECEIVED', payload: { messages } } as const),
-    statusChanged: (status: StatusType) => ({ type: 'CHAT/STATUS_CHANGED', payload: { status } } as const)
+    messagesReceived: (messages: ChatMessageAPIType[]) => ({ type: MESSAGES_RECEIVED, payload: { messages } } as const),
+
+    statusChanged: (status: StatusType) => ({ type: STATUS_CHANGED, payload: { status } } as const),
+
+    sendMessage: (message: string) => ({ type: SEND_MESSAGE, message } as const)
 }
 
 

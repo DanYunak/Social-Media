@@ -1,4 +1,4 @@
-import dialogsReducer, { actions, InitialStateType } from './dialogs-reducer'
+import dialogsReducer, { actions, InitialStateType } from '../dialogs-reducer'
 
 let state: InitialStateType
 

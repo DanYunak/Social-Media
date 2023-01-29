@@ -1,14 +1,17 @@
+import { errorsReducer } from './reducers/errors-reducer';
 import { useDispatch } from 'react-redux'
-import { combineReducers, applyMiddleware, compose, configureStore, createStore, Action } from '@reduxjs/toolkit'
-import profileReducer from './profile-reducer'
-import dialogsReducer from './dialogs-reducer'
-import sidebarReducer from './sidebar-reducer'
-import usersReducer from './users-reducer'
-import authReducer from './auth-reducer'
+import { combineReducers, applyMiddleware, compose, configureStore, createStore, Action, getDefaultMiddleware } from '@reduxjs/toolkit'
+import profileReducer from './reducers/profile-reducer'
+import dialogsReducer from './reducers/dialogs-reducer'
+import sidebarReducer from './reducers/sidebar-reducer'
+import usersReducer from './reducers/users-reducer'
+import authReducer from './reducers/auth-reducer'
 import thunkMiddleWare, { ThunkAction } from 'redux-thunk'
 import { reducer as formReducer } from 'redux-form'
-import appReducer from './app-reducer'
-import { chatReducer } from './chat-reducer'
+import appReducer from './reducers/app-reducer'
+import { chatReducer } from './reducers/chat-reducer'
+import createSagaMiddleware from 'redux-saga'
+import { rootSaga } from './sagas/rootSaga'
 
 const rootReducer = combineReducers({
     profilePage: profileReducer,
@@ -19,6 +22,7 @@ const rootReducer = combineReducers({
     form: formReducer,
     app: appReducer,
     chat: chatReducer,
+    erros: errorsReducer
 })
 
 type RootReducerType = typeof rootReducer // (globalstate: AppStateType) => AppStateType
@@ -37,7 +41,15 @@ export type BaseThunkType<A extends Action> = ThunkAction<Promise<void>, AppStat
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleWare)))
+const sagaMiddleware = createSagaMiddleware()
+// const store = createStore(rootReducer, composeEnhancers(applyMiddleware(sagaMiddleware)))
+
+const store = configureStore({
+    reducer: rootReducer,
+    // todo thunk should be false
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: true }).concat(sagaMiddleware)
+})
+sagaMiddleware.run(rootSaga)
 // @ts-ignore
 window.__store__ = store // Щоб викликати через консоль
 export default store

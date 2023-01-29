@@ -20,9 +20,9 @@ import { ProfilePage } from './components/Profile/ProfilePage'
 import Settings from './components/Settings/Settings'
 import { UsersPage } from './components/Users/UsersPage'
 import { ChatPage } from './pages/Chat/ChatPage'
-import { initializeApp, languageParse } from './redux/app-reducer'
-import { getInitialized, getLanguage } from './redux/app-selectors'
+import { actionsApp, languageParse } from './redux/reducers/app-reducer'
 import store, { useAppDispatch } from './redux/redux-store'
+import { getInitialized, getLanguage } from './redux/selectors/app-selectors'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -88,7 +88,7 @@ const App: FC = memo(() => {
   }
 
   useEffect(() => {
-    dispatch(initializeApp())
+    dispatch(actionsApp.initializeApp())
     window.addEventListener('unhandledrejection', catchAllUnhandledErrors)
 
     return () => { // Component will unmount

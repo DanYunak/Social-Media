@@ -1,10 +1,10 @@
 import { Input } from 'antd'
 import { FC, memo, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getLanguage } from '../../../redux/app-selectors'
-import { updateStatus } from '../../../redux/profile-reducer'
-import { getStatusSelector } from '../../../redux/profile-selectors'
+import { actions } from '../../../redux/reducers/profile-reducer'
 import { useAppDispatch } from '../../../redux/redux-store'
+import { getLanguage } from '../../../redux/selectors/app-selectors'
+import { getStatusSelector } from '../../../redux/selectors/profile-selectors'
 
 type PropsType = {
     isOwner: boolean
@@ -30,7 +30,8 @@ export const ProfileStatus: FC<PropsType> = memo(({ isOwner }) => {
 
     const deactivateEditMode = () => {
         setEditMode(false)
-        dispatch(updateStatus(userStatus))
+        // dispatch(updateStatus(userStatus))
+        dispatch(actions.updateStatus(userStatus))
     }
 
     const onStatusChange = (e: { currentTarget: HTMLInputElement }) => {
