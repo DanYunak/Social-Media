@@ -1,4 +1,5 @@
-import { instance } from './api'
+import { instance } from '../shared/api/axiosInstance'
+
 
 export type CaptchaUrlResponseType = {
     url: string

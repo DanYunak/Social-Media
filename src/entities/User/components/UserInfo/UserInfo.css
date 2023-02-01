@@ -1,0 +1,21 @@
+.user__info {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.user__name {
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.user__name a {
+    color: blue;
+}
+
+.user__status {
+    font-size: 20px;
+    margin-top: 10px;
+}

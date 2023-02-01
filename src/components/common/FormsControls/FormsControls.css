@@ -1,9 +1,0 @@
-.form__control_error input, .form__control_error textarea {
-  border: 2px solid red;
-  margin-bottom: 20px;
-}
-.form__control_error span {
-  color: red;
-  font-weight: 600;
-  font-size: 22px;
-}/*# sourceMappingURL=FormsControls.css.map */

@@ -1,9 +1,14 @@
-import { getMessages, getStatus } from './../selectors/chat-selectors'
+import { stopAPI } from './../../widgets/Chat/api/stop'
+import { unsubscribeAPI } from './../../widgets/Chat/api/unsubscribe'
+import { subscribeAPI } from './../../widgets/Chat/api/subscribe'
+import { startAPI } from './../../widgets/Chat/api/start'
+import { StatusType } from '../../widgets/Chat/api/main'
+import { ChatMessageAPIType } from './../../entities/Message/index'
+import { getMessages, getStatus } from '../../widgets/Chat/model/chat-selectors'
 import { all, call, put, takeEvery, select } from '@redux-saga/core/effects'
-import { actions } from '../reducers/chat-reducer'
-import { chatAPI, StatusType } from './../../api/chat-api'
-import { ChatMessageAPIType } from './../../pages/Chat/ChatPage'
-import { SEND_MESSAGE, SEND_MESSAGE_ERROR, START_MESSAGES_LISTENING, START_MESSAGES_LISTENING_ERROR, STOP_MESSAGES_LISTENING, STOP_MESSAGES_LISTENING_ERROR } from './../reducers/constants'
+import { actions } from '../../widgets/Chat/model/chat-actions'
+import { SEND_MESSAGE, SEND_MESSAGE_ERROR, START_MESSAGES_LISTENING, START_MESSAGES_LISTENING_ERROR, STOP_MESSAGES_LISTENING, STOP_MESSAGES_LISTENING_ERROR } from '../../widgets/Chat/consts'
+import { sendMessageAPI } from '../../widgets/Chat/api/sendMessage'
 
 //* WORKERS ===================================================================================================================================
 
@@ -25,9 +30,9 @@ function* startMessagesListening(action: ActionType | any): any {
     const statusChangedHandler = yield put(actions.statusChanged(status))
 
     try {
-        yield call(chatAPI.start)
-        yield call(chatAPI.subscribe, 'message-received', newMessageHandler)
-        yield call(chatAPI.subscribe, 'status-changed', statusChangedHandler)
+        yield call(startAPI)
+        yield call(subscribeAPI, 'message-received', newMessageHandler)
+        yield call(subscribeAPI, 'status-changed', statusChangedHandler)
     } catch {
         yield put({ type: START_MESSAGES_LISTENING_ERROR, error: 'Error fetching start messages listening' })
     }
@@ -42,9 +47,9 @@ function* stopMessagesListening(action: ActionType | any): any {
     const statusChangedHandler = yield put(actions.statusChanged(status))
 
     try {
-        yield call(chatAPI.unsubscribe, 'message-received', newMessageHandler)
-        yield call(chatAPI.unsubscribe, 'status-changed', statusChangedHandler)
-        yield call(chatAPI.stop)
+        yield call(unsubscribeAPI, 'message-received', newMessageHandler)
+        yield call(unsubscribeAPI, 'status-changed', statusChangedHandler)
+        yield call(stopAPI)
     } catch {
         yield put({ type: STOP_MESSAGES_LISTENING_ERROR, error: 'Error fetching stop messages listening' })
     }
@@ -52,7 +57,7 @@ function* stopMessagesListening(action: ActionType | any): any {
 
 function* sendMessage(action: ActionType | any) {
     try {
-        yield call(chatAPI.sendMessage, action.message)
+        yield call(sendMessageAPI, action.message)
     } catch {
         yield put({ type: SEND_MESSAGE_ERROR, error: 'Error fetching send message' })
     }

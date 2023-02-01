@@ -1,4 +1,4 @@
-import { APIResponseType, instance } from './api'
+import { APIResponseType, instance } from '../shared/api/axiosInstance'
 
 export type MeResponseDataType = {
     id: number

@@ -1,9 +1,9 @@
-import { GET_AUTH_USER_DATA, GET_AUTH_USER_DATA_ERROR, GET_CAPTCHA_URL, GET_CAPTCHA_URL_ERROR, LOGIN, LOGIN_ERROR, LOGOUT, LOGOUT_ERROR } from './../reducers/constants';
-import { securityAPI, CaptchaUrlResponseType } from './../../api/security-api';
+import { APIResponseType, ResultCodesEnum } from './../../shared/api/axiosInstance'
+import { all, call, put, takeEvery } from '@redux-saga/core/effects'
+import { actions } from '../actions/auth-actions'
 import { authAPI, LoginResponseDataType, MeResponseDataType } from './../../api/auth-api'
-import { call, fork, put, takeEvery, all, select, cancel, cancelled, take } from '@redux-saga/core/effects'
-import { APIResponseType, ResultCodesEnum } from '../../api/api'
-import { actions } from '../reducers/auth-reducer'
+import { CaptchaUrlResponseType, securityAPI } from './../../api/security-api'
+import { GET_AUTH_USER_DATA, GET_AUTH_USER_DATA_ERROR, GET_CAPTCHA_URL, GET_CAPTCHA_URL_ERROR, LOGIN, LOGIN_ERROR, LOGOUT, LOGOUT_ERROR } from './../reducers/constants'
 
 
 //* WORKERS ===================================================================================================================================

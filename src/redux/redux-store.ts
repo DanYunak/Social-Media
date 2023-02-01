@@ -1,22 +1,18 @@
-import { errorsReducer } from './reducers/errors-reducer';
+import { Action, combineReducers, compose, configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
-import { combineReducers, applyMiddleware, compose, configureStore, createStore, Action, getDefaultMiddleware } from '@reduxjs/toolkit'
-import profileReducer from './reducers/profile-reducer'
-import dialogsReducer from './reducers/dialogs-reducer'
-import sidebarReducer from './reducers/sidebar-reducer'
-import usersReducer from './reducers/users-reducer'
-import authReducer from './reducers/auth-reducer'
-import thunkMiddleWare, { ThunkAction } from 'redux-thunk'
 import { reducer as formReducer } from 'redux-form'
-import appReducer from './reducers/app-reducer'
-import { chatReducer } from './reducers/chat-reducer'
 import createSagaMiddleware from 'redux-saga'
+import { ThunkAction } from 'redux-thunk'
+import profileReducer from '../widgets/Profile/model/profile-reducer'
+import usersReducer from '../widgets/Users/model/users-reducer'
+import appReducer from '../app/model/app-reducer'
+import { authReducer } from './reducers/auth-reducer'
+import { chatReducer } from '../widgets/Chat/model/chat-reducer'
+import { errorsReducer } from './reducers/errors-reducer'
 import { rootSaga } from './sagas/rootSaga'
 
 const rootReducer = combineReducers({
     profilePage: profileReducer,
-    dialogsPage: dialogsReducer,
-    sidebar: sidebarReducer,
     usersPage: usersReducer,
     auth: authReducer,
     form: formReducer,
