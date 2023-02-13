@@ -4,9 +4,10 @@ import { ErrorMessage, Form, Formik } from 'formik'
 import { FC, memo } from 'react'
 import { useSelector } from 'react-redux'
 import * as Yup from 'yup'
-import { FilterType } from '../../../widgets/Users/model/users-reducer'
 import { getLanguage } from '../../../app/model/app-selectors'
 import { eng } from '../../../shared/constants/languageConsts'
+import { FilterType } from '../../../widgets/Users/model/users-reducer'
+import './UsersSearchForm.css'
 
 type PropsType = {
     onFilterChanged: (filter: FilterType) => void
@@ -44,21 +45,23 @@ export const UsersSearchForm: FC<PropsType> = memo(({ onFilterChanged }) => {
                 onSubmit={submit}>
                 {formik => (
                     <Form onSubmit={formik.handleSubmit}>
-                        <Input onChange={formik.handleChange} onBlur={formik.handleBlur} size='large' prefix={<UserOutlined />}
-                            value={formik.values.term} name='term' className='term__field' />
-                        <ErrorMessage name='term' component='span' className='error__message_search' />
-                        <Select defaultValue='null'
-                            onChange={(value) => formik.setFieldValue('friend', value)} style={{ width: 175 }}>
-                            <Select.Option value='null'>{language === eng ? 'All' : 'Всі'}</Select.Option>
-                            <Select.Option value='true'>{language === eng ? 'Only following' : 'Тільки відстежувані'}</Select.Option>
-                            <Select.Option value='false'>{language === eng ? 'Only unfollowing' : 'Тільки невідстежувані'}</Select.Option>
-                        </Select>
-                        <Space wrap>
-                            <Button type='primary' htmlType='submit' icon={<SearchOutlined />}
-                                style={{ marginLeft: 20 }} size='large'>
-                                {language === eng ? 'Search' : 'Пошук'}
-                            </Button>
-                        </Space>
+                        <div className='form__actions'>
+                            <Input onChange={formik.handleChange} onBlur={formik.handleBlur} size={window.innerWidth >= 698 ? 'large' : 'small'} prefix={<UserOutlined />}
+                                value={formik.values.term} name='term' className='term__field' />
+                            <ErrorMessage name='term' component='span' className='error__message_search' />
+                            <Select defaultValue='null'
+                                onChange={(value) => formik.setFieldValue('friend', value)} className='select__dropdown'>
+                                <Select.Option value='null'>{language === eng ? 'All' : 'Всі'}</Select.Option>
+                                <Select.Option value='true'>{language === eng ? 'Only following' : 'Тільки відстежувані'}</Select.Option>
+                                <Select.Option value='false'>{language === eng ? 'Only unfollowing' : 'Тільки невідстежувані'}</Select.Option>
+                            </Select>
+                            <Space wrap>
+                                <Button type='primary' htmlType='submit' className='search__btn' icon={<SearchOutlined />}
+                                    size={window.innerWidth >= 698 ? 'large' : 'middle'}>
+                                    {language === eng ? 'Search' : 'Пошук'}
+                                </Button>
+                            </Space>
+                        </div>
                     </Form>
                 )}
             </Formik>

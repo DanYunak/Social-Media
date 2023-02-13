@@ -5,6 +5,8 @@ import { actions } from '../../../model/profile-actions'
 import { useAppDispatch } from '../../../../../redux/redux-store'
 import { getLanguage } from '../../../../../app/model/app-selectors'
 import { getStatusSelector } from '../../../model/profile-selectors'
+import { eng } from '../../../../../shared/constants/languageConsts'
+import './ProfileStatus.css'
 
 type PropsType = {
     isOwner: boolean
@@ -30,7 +32,6 @@ export const ProfileStatus: FC<PropsType> = memo(({ isOwner }) => {
 
     const deactivateEditMode = () => {
         setEditMode(false)
-        // dispatch(updateStatus(userStatus))
         dispatch(actions.updateStatus(userStatus))
     }
 
@@ -43,19 +44,19 @@ export const ProfileStatus: FC<PropsType> = memo(({ isOwner }) => {
             {!editMode &&
                 <div className='profile__status info'>
                     {isOwner
-                        ? <span onDoubleClick={activateEditMode}>
+                        ? <span style={{ display: 'flex' }} onDoubleClick={activateEditMode}>
                             <>
-                                <b>{language === 'english' ? 'Status' : 'Статус'}:</b>
-                                <span className='status' style={{ marginLeft: 5 }}>
-                                    {language === 'english' ? status || 'none' : status || 'відсутній'}
-                                </span>
+                                <b>{language === eng ? 'Status' : 'Статус'}:</b>
+                                <div className='status'>
+                                    {language === eng ? status || 'none' : status || 'відсутній'}
+                                </div>
                             </>
                         </span>
                         : <span>
                             <>
-                                <b>{language === 'english' ? 'Status' : 'Статус'}:</b>
-                                <span className='status' style={{ marginLeft: 5 }}>
-                                    {language === 'english' ? status || 'none' : status || 'відсутній'}
+                                <b>{language === eng ? 'Status' : 'Статус'}:</b>
+                                <span className='status'>
+                                    {language === eng ? status || 'none' : status || 'відсутній'}
                                 </span>
                             </>
                         </span>
@@ -65,7 +66,7 @@ export const ProfileStatus: FC<PropsType> = memo(({ isOwner }) => {
             {editMode &&
                 <div>
                     <Input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode}
-                        value={userStatus} style={{ width: 250, marginTop: 15 }} />
+                        value={userStatus} className='input__status' />
                 </div>
             }
         </div>

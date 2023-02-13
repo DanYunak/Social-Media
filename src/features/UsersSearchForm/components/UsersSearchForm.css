@@ -1,0 +1,29 @@
+.form__actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.select__dropdown {
+    width: 175px;
+}
+
+.search__btn {
+    margin-left: 20px;
+}
+
+@media (max-width: 635px) {
+    .form__actions {
+        flex-direction: column;
+    }
+
+    .select__dropdown {
+        margin-top: -25px;
+        margin-bottom: 25px;
+    }
+
+    .search__btn {
+        margin-left: 0;
+        margin-bottom: 30px;
+    }
+}

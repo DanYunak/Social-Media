@@ -2,6 +2,7 @@ import { Button, Space } from 'antd'
 import { FC, memo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getLanguage } from '../../../app/model/app-selectors'
+import { eng } from '../../../shared/constants/languageConsts'
 import './Paginator.css'
 
 type PropsType = {
@@ -30,28 +31,61 @@ export const Paginator: FC<PropsType> = memo(({ totalUsersCount, pageSize, curre
     const language = useSelector(getLanguage)
 
     return (
-        <div className='search__num'>
-            {portionNumber > 1 &&
-                <Space wrap>
-                    <Button type='primary' onClick={() => { setPortionNumber(portionNumber - 1) }}
-                        size='large'>{language === 'english' ? 'Prev' : 'Назад'}</Button>
-                </Space>
+        <>
+            {window.innerWidth >= 635
+                ? <div className='search__num'>
+                    {portionNumber > 1 &&
+                        <Space wrap>
+                            <Button type='primary' className='prev__btn' onClick={() => { setPortionNumber(portionNumber - 1) }}
+                                size={window.innerWidth >= 698 ? 'large' : 'middle'}>{language === eng ? 'Prev' : 'Назад'}</Button>
+                        </Space>
+                    }
+                    <div className='pages__num'>
+                        {pages
+                            .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+                            .map(p => {
+                                return (
+                                    // @ts-ignore
+                                    <span className={currentPage === p && 'selectedPage'} onClick={() => { onPageChanged(p) }}>{p}</span>
+                                )
+                            })}
+                    </div>
+                    {portionCount > portionNumber &&
+                        <Space wrap>
+                            <Button type='primary' className='next__btn' onClick={() => { setPortionNumber(portionNumber + 1) }}
+                                size={window.innerWidth >= 698 ? 'large' : 'middle'}>{language === eng ? 'Next' : 'Далі'}</Button>
+                        </Space>
+                    }
+                </div>
+                
+                : <div className='search__num_mobile'>
+                    <div className='pages__num'>
+                        {pages
+                            .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+                            .map(p => {
+                                return (
+                                    // @ts-ignore
+                                    <span className={currentPage === p && 'selectedPage'} onClick={() => { onPageChanged(p) }}>{p}</span>
+                                )
+                            })}
+                    </div>
+                    <div className='action__buttons_mobile'>
+                        {portionNumber > 1 &&
+                            <Space wrap>
+                                <Button type='primary' className='prev__btn' onClick={() => { setPortionNumber(portionNumber - 1) }}
+                                    size={window.innerWidth >= 698 ? 'large' : 'middle'}>{language === eng ? 'Prev' : 'Назад'}</Button>
+                            </Space>
+                        }
+                        {portionCount > portionNumber &&
+                            <Space wrap>
+                                <Button type='primary' className='next__btn' onClick={() => { setPortionNumber(portionNumber + 1) }}
+                                    size={window.innerWidth >= 698 ? 'large' : 'middle'}>{language === eng ? 'Next' : 'Далі'}</Button>
+                            </Space>
+                        }
+                    </div>
+                </div>
             }
-            {pages
-                .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
-                .map(p => {
-                    return (
-                        // @ts-ignore
-                        <span className={currentPage === p && 'selectedPage'} onClick={() => { onPageChanged(p) }}>{p}</span>
-                    )
-                })}
-            {portionCount > portionNumber &&
-                <Space wrap>
-                    <Button type='primary' onClick={() => { setPortionNumber(portionNumber + 1) }}
-                        size='large'>{language === 'english' ? 'Next' : 'Далі'}</Button>
-                </Space>
-            }
-        </div>
+        </>
     )
 })
 

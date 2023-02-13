@@ -2,4 +2,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 18px;
+    @media (max-width: 593px) {
+        flex-direction: column;
+        .language__change {
+            margin-top: 20px;
+        }
+    }
 }

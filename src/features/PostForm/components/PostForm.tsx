@@ -4,10 +4,10 @@ import { ErrorMessage, Form, Formik } from 'formik'
 import { FC, memo } from 'react'
 import { useSelector } from 'react-redux'
 import * as Yup from 'yup'
-
 import { getLanguage } from '../../../app/model/app-selectors'
 import { eng } from '../../../shared/constants/languageConsts'
 import { AddPostValueType } from '../../../widgets/Profile/index'
+import './PostForm.css'
 
 type PropsType = {
     onSubmit: (values: AddPostValueType) => void
@@ -37,7 +37,7 @@ export const PostForm: FC<PropsType> = memo((props) => {
                     </div>
                     <div>
                         <Space wrap>
-                            <Button type='primary' htmlType='submit' style={{ marginTop: 30 }}>
+                            <Button type='primary' size='middle' htmlType='submit' style={{ marginTop: 30 }}>
                                 {language === eng ? 'Add Post' : 'Додати пост'}
                             </Button>
                         </Space>

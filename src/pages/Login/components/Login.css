@@ -8,14 +8,6 @@
 .login form {
   font-size: 30px;
 }
-.login form input {
-  font-size: 20px;
-  border: 1px solid black;
-  margin-top: 40px;
-}
-.login form input:focus {
-  border: 3px solid #3b85fc;
-}
 
 .error__message_login {
   color: #f02849;

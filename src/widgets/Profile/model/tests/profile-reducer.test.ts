@@ -6,8 +6,11 @@ let state: InitialStateType
 beforeEach(() => {
     state = {
         postsData: [
+            // @ts-ignore
             { id: 1, message: 'Hello', likes: 24 },
+            // @ts-ignore
             { id: 2, message: 'Please visit my acc', likes: 0 },
+            // @ts-ignore
             { id: 3, message: 'Are you OK?', likes: 5 },
         ],
         profile: {

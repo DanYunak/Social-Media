@@ -1,0 +1,11 @@
+.profile__job_description, .profile__aboutMe {
+    word-wrap: break-word;
+    max-width: 500px;
+}
+
+.about__user {
+    margin-top: 5px;
+    border: 1px solid black;
+    padding: 5px;
+    /* display: inline-flex; */
+}

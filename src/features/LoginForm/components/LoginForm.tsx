@@ -1,11 +1,14 @@
-import { Button, Checkbox, Space } from 'antd'
+import { Button, Checkbox, Input, Space } from 'antd'
 import { ErrorMessage, Field, Formik } from 'formik'
 import { FC, memo } from 'react'
 import { useSelector } from 'react-redux'
 import * as Yup from 'yup'
 import { LoginFormValuesType } from '../../../pages/Login/index'
 import { getCaptchaUrlSelector } from '../model/login-selectors'
+import { MailOutlined, LockOutlined } from '@ant-design/icons'
 import './LoginForm.css'
+import { getLanguage } from '../../../app/model/app-selectors'
+import { eng } from '../../../shared/constants/languageConsts';
 
 type PropsType = {
     onSubmit: (formData: LoginFormValuesType) => void
@@ -15,6 +18,7 @@ type PropsType = {
 export const LoginForm: FC<PropsType> = memo((props) => {
 
     const captchaUrl = useSelector(getCaptchaUrlSelector)
+    const language = useSelector(getLanguage)
 
     const signupSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email').required('Required'),
@@ -30,24 +34,30 @@ export const LoginForm: FC<PropsType> = memo((props) => {
             {formik =>
                 <form onSubmit={formik.handleSubmit} action='#'>
                     <div>
-                        <Field type='email' name='email' placeholder='Email' />
+                        <Input type='email' name='email' placeholder={language === eng ? 'Email' : 'Електронна пошта'}
+                            onChange={formik.handleChange} onBlur={formik.handleBlur}
+                            value={formik.values.email} prefix={<MailOutlined />} style={{ marginTop: 20, marginBottom: 20 }} />
                         <ErrorMessage name='email' component='div' className='error__message_login' />
                     </div>
                     <div>
-                        <Field type='password' name={'password'} placeholder='Password' />
+                        <Input type='password' name='password' placeholder={language === eng ? 'Password' : 'Пароль'} onChange={formik.handleChange} onBlur={formik.handleBlur}
+                            value={formik.values.password} prefix={<LockOutlined />} />
                         <ErrorMessage name='password' component='div' className='error__message_login' />
                     </div>
                     <div style={{ fontSize: 20, textAlign: 'center', marginTop: 20, marginBottom: 10 }}>
                         <Checkbox>Remember me</Checkbox>
                     </div>
 
-                    {captchaUrl && <img src={captchaUrl} />}
-                    {captchaUrl &&
-                        <Field name='captcha' placeholder='Symbols from captcha' />
-                    }
+                    <div className='captcha'>
+                        {captchaUrl && <img src={captchaUrl} />}
+                        {captchaUrl &&
+                            <Input type='text' name='captcha' placeholder={language === eng ? 'Enter symbols from captcha' : 'Введіть сивмоли із перевірки'}
+                                onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.captcha} />
+                        }
+                    </div>
                     <div style={{ textAlign: 'center', marginTop: 10 }}>
                         <Space wrap>
-                            <Button type='primary' htmlType='submit'>Log In</Button>
+                            <Button type='primary' htmlType='submit'>{language === eng ? 'Log In' : 'Увійти'}</Button>
                         </Space>
                     </div>
                 </form>

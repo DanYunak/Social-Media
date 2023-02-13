@@ -1,8 +1,20 @@
 .error__message_login {
-    color: #f02849;
-    font-family: SFProText-Regular, Helvetica, Arial, sans-serif;
-    font-size: 13px;
-    line-height: 16px;
-    margin-top: 5px;
-    text-align: left;
+  color: #f02849;
+  font-family: SFProText-Regular, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 16px;
+  margin-top: 5px;
+  text-align: left;
+}
+
+.captcha {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 640px) {
+  .captcha {
+    flex-direction: column;
   }
+}

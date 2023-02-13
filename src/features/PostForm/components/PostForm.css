@@ -1,0 +1,8 @@
+.error__message {
+    color: #f02849;
+    font-family: SFProText-Regular, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 16px;
+    margin-top: 5px;
+    text-align: left;
+}

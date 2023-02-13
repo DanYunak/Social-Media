@@ -1,14 +1,11 @@
 import {
   CustomerServiceOutlined,
-  HomeOutlined, NotificationOutlined, SettingOutlined, TeamOutlined, WechatOutlined
+  HomeOutlined, NotificationOutlined, SettingOutlined, TeamOutlined, WechatOutlined, RocketTwoTone
 } from '@ant-design/icons'
 import { Layout, Menu, MenuProps, theme } from 'antd'
 import React, { FC, memo, Suspense, useEffect, useState } from 'react'
-import { Provider, useSelector } from 'react-redux'
-import {
-  BrowserRouter, Link, Navigate, Route, Routes, useNavigate
-} from 'react-router-dom'
-import './styles/App.css'
+import { useSelector } from 'react-redux'
+import { Link, Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import { ChatPage } from '../../pages/Chat/index'
 import { LanguagePage } from '../../pages/Language/index'
 import { LoginPage } from '../../pages/Login/index'
@@ -17,12 +14,13 @@ import { NewsPage } from '../../pages/News/index'
 import { ProfilePage } from '../../pages/Profile/index'
 import { SettingsPage } from '../../pages/Settings/index'
 import { UsersPage } from '../../pages/Users/index'
-import { actionsApp, languageParse } from '../model/app-reducer'
-import store, { useAppDispatch } from '../../redux/redux-store'
-import { getInitialized, getLanguage } from '../model/app-selectors'
+import { useAppDispatch } from '../../redux/redux-store'
 import { Preloader } from '../../shared/components/Preloader/Preloader'
 import { eng, ukr } from '../../shared/constants/languageConsts'
 import { HeaderApp } from '../../widgets/Header/index'
+import { actionsApp, languageParse } from '../model/app-reducer'
+import { getInitialized, getLanguage } from '../model/app-selectors'
+import './styles/App.css'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -91,7 +89,7 @@ export const App: FC = memo(() => {
     dispatch(actionsApp.initializeApp())
     window.addEventListener('unhandledrejection', catchAllUnhandledErrors)
 
-    return () => { // Component will unmount
+    return () => {
       window.removeEventListener('unhandledrejection', catchAllUnhandledErrors)
     }
   }, [])
@@ -101,36 +99,40 @@ export const App: FC = memo(() => {
   }
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <div style={{ height: 32, margin: 16, background: 'rgba(255, 255, 255, 0.2)' }} />
-        {language === eng && <Menu theme='dark' mode='inline' items={itemsEng} />}
-        {language === ukr && <Menu theme='dark' mode='inline' items={itemsUkr} />}
-      </Sider>
-      <Layout className='site-layout'>
-        <Header style={{ height: 85 }}>
-          <HeaderApp collapsedMenu={collapsed} />
-        </Header>
-        <Content style={{ margin: '0 16px' }}>
-          <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
-            <Suspense fallback={<Preloader />}>
-              <Routes>
-                <Route path='/yun' element={<Navigate to='/profile' />} />
-                <Route path='/profile/:userIdde' element={<ProfilePage />} />
-                <Route path='/profile/' element={<ProfilePage />} />
-                <Route path='/news' element={<NewsPage />} />
-                <Route path='/music' element={<MusicPage />} />
-                <Route path='/settings' element={<SettingsPage />} />
-                <Route path='/users' element={<UsersPage />} />
-                <Route path='/login' element={<LoginPage />} />
-                <Route path='/chat' element={<ChatPage />} />
-                <Route path='/language' element={<LanguagePage />} />
-              </Routes>
-            </Suspense>
+    <div className='app__wrapper'>
+      <Layout style={{ minHeight: '100vh' }}>
+        <Sider collapsible={window.innerWidth >= 992 ? true : false} collapsed={window.innerWidth >= 992 ? collapsed : true} onCollapse={(value) => setCollapsed(value)}>
+          <div style={{ height: 32, margin: 16, background: 'rgba(255, 255, 255, 0.2)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <RocketTwoTone style={{ fontSize: '175%'}}  />
           </div>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>Yun ©2022 Created by Dan Yunak</Footer>
+          {language === eng && <Menu theme='dark' mode='inline' items={itemsEng} />}
+          {language === ukr && <Menu theme='dark' mode='inline' items={itemsUkr} />}
+        </Sider>
+        <Layout className='site-layout'>
+          <Header style={{ height: 70 }}>
+            <HeaderApp collapsedMenu={collapsed} />
+          </Header>
+          <Content style={{ margin: '0 16px' }}>
+            <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
+              <Suspense fallback={<Preloader />}>
+                <Routes>
+                  <Route path='/yun' element={<Navigate to='/profile' />} />
+                  <Route path='/profile/:userIdde' element={<ProfilePage />} />
+                  <Route path='/profile/' element={<ProfilePage />} />
+                  <Route path='/news' element={<NewsPage />} />
+                  <Route path='/music' element={<MusicPage />} />
+                  <Route path='/settings' element={<SettingsPage />} />
+                  <Route path='/users' element={<UsersPage />} />
+                  <Route path='/login' element={<LoginPage />} />
+                  <Route path='/chat' element={<ChatPage />} />
+                  <Route path='/language' element={<LanguagePage />} />
+                </Routes>
+              </Suspense>
+            </div>
+          </Content>
+          <Footer style={{ textAlign: 'center' }}>Yun ©2022 Created by Dan Yunak</Footer>
+        </Layout>
       </Layout>
-    </Layout>
+    </div>
   )
 })

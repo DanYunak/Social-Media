@@ -18,7 +18,9 @@ export const LanguagePage: FC = memo(() => {
     return (
         <div className='language'>
             Choose your language:
-            <ChangeLanguage path={'/login'} />
+            <div className='language__change'>
+                <ChangeLanguage path={'/login'} />
+            </div>
         </div>
     )
 })

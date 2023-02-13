@@ -1,13 +1,37 @@
-.search__num .selectedPage {
+.search__num, .search__num_mobile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search__num .selectedPage, .search__num_mobile .selectedPage {
   font-weight: 700;
 }
-.search__num span {
+.search__num .pages__num, .search__num_mobile .pages__num {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search__num span, .search__num_mobile span {
   margin: 0 10px;
   cursor: pointer;
 }
 @media (min-width: 992px) {
-  .search__num span:hover {
+  .search__num span:hover, .search__num_mobile span:hover {
     opacity: 0.5;
     transition: opacity 0.3s;
+  }
+}
+@media (max-width: 635px) {
+  .search__num, .search__num_mobile {
+    flex-direction: column;
+  }
+  .search__num .action__buttons_mobile, .search__num_mobile .action__buttons_mobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+  }
+  .search__num .action__buttons_mobile .prev__btn, .search__num_mobile .action__buttons_mobile .prev__btn {
+    margin-right: 40px;
   }
 }/*# sourceMappingURL=Paginator.css.map */

@@ -5,6 +5,7 @@ import { getLanguage } from '../../../app/model/app-selectors'
 import { eng } from '../../../shared/constants/languageConsts'
 import { getAuthorizedId } from '../../../widgets/Profile/model/profile-selectors'
 import { ChatMessageAPIType } from '../model/types'
+import './Message.css'
 
 export const Message: FC<{ message: ChatMessageAPIType }> = memo(({ message }) => {
 
@@ -12,11 +13,11 @@ export const Message: FC<{ message: ChatMessageAPIType }> = memo(({ message }) =
     const language = useSelector(getLanguage)
 
     return (
-        <div style={{ marginTop: 20, display: 'flex', alignItems: 'center' }}>
+        <div className='message__container'>
             {message.userId !== authorizedId
                 ? <Link to={`/profile/${message.userId}`}>
                     <img src={message.photo} width='50' height='50' style={{ marginRight: 15 }} />
-                    <div>{message.userName}</div>
+                    <div className='message__username'>{message.userName}</div>
                 </Link>
                 : <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                     <img src={message.photo} width='50' height='50' style={{ marginRight: 15 }} />
@@ -24,7 +25,9 @@ export const Message: FC<{ message: ChatMessageAPIType }> = memo(({ message }) =
                 </div>
             }
             <br />
-            {message.message}
+            <div className='message'>
+                {message.message}
+            </div>
         </div >
     )
 })

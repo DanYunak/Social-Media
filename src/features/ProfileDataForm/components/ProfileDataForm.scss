@@ -17,4 +17,28 @@ textarea {
 
 .input__field {
     width: 250px;
+    @media (max-width: 390px) {
+        width: 200px;
+    }
+    @media (max-width: 330px) {
+        width: 150px;
+    }
+}
+
+.edit__contacts {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    .contact {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5px;
+        .input__contact {
+            &::placeholder {
+                color: black;
+                opacity: .6;
+            }
+        }
+    }
 }

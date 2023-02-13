@@ -1,7 +1,7 @@
 import { LikeFilled, LikeOutlined } from '@ant-design/icons'
 import { FC, memo, useState } from 'react'
 import { PostAvatar } from '../PostAvatar/PostAvatar'
-import './Post.scss'
+import './Post.css'
 
 type PropsType = {
     message: string
@@ -21,8 +21,8 @@ export const Post: FC<PropsType> = memo(({ message, likes }) => {
         <div className='post'>
             <PostAvatar />
             <div className='post__content'>
-                <div style={{ marginBottom: 10 }}>
-                    {message}
+                <div className='post__message'>
+                    <div>{message}</div>
                 </div>
                 <div onClick={toggleLike}>
                     {!isLike && <div onClick={() => setLikesNum(likesNum + 1)} >

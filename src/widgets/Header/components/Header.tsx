@@ -37,13 +37,15 @@ export const HeaderApp: FC<PropsType> = memo((props) => {
 
     const fetchSmallPhoto = async () => {
         const smallPhoto = await authAPI.getSmallPhoto(authorizedId)
-        if (smallPhoto.small !== smallUserPhoto && authorizedId !== null) {
+        if (smallPhoto.small !== smallUserPhoto) {
             setSmallUserPhoto(smallPhoto.small)
         }
     }
 
     useEffect(() => {
-        fetchSmallPhoto()
+        if (authorizedId !== null) {
+            fetchSmallPhoto()
+        }
     }, [profile])
 
     return (

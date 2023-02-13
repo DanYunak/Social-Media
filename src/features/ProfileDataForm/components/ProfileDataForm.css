@@ -17,4 +17,38 @@ textarea {
 
 .input__field {
   width: 250px;
+}
+@media (max-width: 390px) {
+  .input__field {
+    width: 200px;
+  }
+}
+@media (max-width: 330px) {
+  .input__field {
+    width: 150px;
+  }
+}
+
+.edit__contacts {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+}
+.edit__contacts .contact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+}
+.edit__contacts .contact .input__contact::-moz-placeholder {
+  color: black;
+  opacity: 0.6;
+}
+.edit__contacts .contact .input__contact:-ms-input-placeholder {
+  color: black;
+  opacity: 0.6;
+}
+.edit__contacts .contact .input__contact::placeholder {
+  color: black;
+  opacity: 0.6;
 }/*# sourceMappingURL=ProfileDataForm.css.map */

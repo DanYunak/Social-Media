@@ -1,1 +1,1 @@
-{"version":3,"sources":["LanguagePage.scss","LanguagePage.css"],"names":[],"mappings":"AAAA;EACI,aAAA;EACA,uBAAA;EACA,mBAAA;ACCJ","file":"LanguagePage.css"}
+{"version":3,"sources":["LanguagePage.scss","LanguagePage.css"],"names":[],"mappings":"AAAA;EACI,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,eAAA;ACCJ;ADAI;EALJ;IAMQ,sBAAA;ECGN;EDFM;IACI,gBAAA;ECIV;AACF","file":"LanguagePage.css"}

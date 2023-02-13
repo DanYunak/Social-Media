@@ -9,10 +9,8 @@ export const Settings = () => {
 
     return (
         <div className='settings'>
-            <div className='language__change'>
-                {language === eng ? 'Language' : 'Мова'}:
-                <ChangeLanguage path={'/profile'} />
-            </div>
+            {language === eng ? 'Language' : 'Мова'}:
+            <ChangeLanguage path={'/profile'} />
         </div>
     )
 }

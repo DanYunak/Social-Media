@@ -7,17 +7,6 @@
 
     form {
         font-size: 30px;
-
-        input {
-            font-size: 20px;
-            border: 1px solid black;
-            margin-top: 40px;
-
-            &:focus {
-                border: 3px solid #3b85fc;
-            }
-        }
-
     }
 }
 

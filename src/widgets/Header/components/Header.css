@@ -1,6 +1,6 @@
 .header {
   position: absolute;
-  line-height: 40px;
+  line-height: 32px;
   display: flex;
   align-items: center;
   justify-content: end;
@@ -31,6 +31,61 @@
   position: relative;
   transform: translateY(25%);
   top: -25%;
+}
+@media (max-width: 1470px) {
+  .login__block {
+    margin-right: 40px;
+  }
+}
+@media (max-width: 1240px) {
+  .login__block {
+    margin-right: 60px;
+  }
+}
+@media (max-width: 1115px) {
+  .login__block {
+    margin-right: 80px;
+  }
+}
+@media (max-width: 1005px) {
+  .login__block {
+    margin-right: 100px;
+  }
+}
+@media (max-width: 992px) {
+  .login__block {
+    margin-right: 0px;
+  }
+}
+@media (max-width: 780px) {
+  .login__block {
+    margin-right: 15px;
+  }
+}
+@media (max-width: 695px) {
+  .login__block {
+    margin-right: 30px;
+  }
+}
+@media (max-width: 605px) {
+  .login__block {
+    margin-right: 45px;
+  }
+}
+@media (max-width: 525px) {
+  .login__block {
+    margin-right: 60px;
+  }
+}
+@media (max-width: 440px) {
+  .login__block {
+    margin-right: 75px;
+  }
+}
+@media (max-width: 355px) {
+  .login__block {
+    margin-right: 100px;
+  }
 }
 
 .login__btn {

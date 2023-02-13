@@ -90,7 +90,7 @@ export const Users: FC = memo(() => {
             <UsersSearchForm onFilterChanged={onFilterChanged} />
 
             <Paginator totalUsersCount={totalUsersCount} pageSize={pageSize}
-                currentPage={currentPage} onPageChanged={onPageChanged} portionSize={10} />
+                currentPage={currentPage} onPageChanged={onPageChanged} portionSize={window.innerWidth >= 460 ? 10 : 5} />
 
             {
                 users.map(u =>

@@ -7,6 +7,7 @@ import { getLanguage } from '../../../../app/model/app-selectors'
 import { useAppDispatch } from '../../../../redux/redux-store'
 import { actions } from '../../model/profile-actions'
 import { AddPostValueType } from '../../model/types'
+import { eng } from '../../../../shared/constants/languageConsts'
 
 
 export const MyPosts: FC = memo(() => {
@@ -28,7 +29,7 @@ export const MyPosts: FC = memo(() => {
     return (
         <div className='posts'>
             <h3>
-                {language === 'english' ? 'My posts' : 'Мої пости'}
+                {language === eng ? 'My posts' : 'Мої пости'}
             </h3>
             <div className='post__actions'>
                 <PostForm onSubmit={onAddPost} />

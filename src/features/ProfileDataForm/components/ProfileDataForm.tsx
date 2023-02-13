@@ -1,13 +1,15 @@
 import { Button, Checkbox, Input } from 'antd'
-import { ErrorMessage, Field, Form, Formik } from 'formik'
+import { ErrorMessage, Form, Formik } from 'formik'
 import { FC, memo } from 'react'
 import { useSelector } from 'react-redux'
-import { getLanguage } from '../../../app/model/app-selectors'
 import * as Yup from 'yup'
-import './ProfileDataForm.css'
+import { getLanguage } from '../../../app/model/app-selectors'
 import { eng } from '../../../shared/constants/languageConsts'
-import { getProfile } from '../../../widgets/Profile/model/profile-selectors'
 import { ProfileType } from '../../../widgets/Profile/index'
+import { getProfile } from '../../../widgets/Profile/model/profile-selectors'
+import { contactsIcons } from '../lib/helpers/contactsIcons'
+import './ProfileDataForm.css'
+
 
 
 export type ContactsTypeKey = {
@@ -78,23 +80,27 @@ export const ProfileDataForm: FC<PropsType> = memo(({ outFromEditMode, onSubmit 
                             Object
                                 // @ts-ignore
                                 .keys(profile?.contacts)
-                                .map(key => { //? Object.keys пробіжиться по всьому об'єкту який приходить з серверу і дасть кожному елементу по ключу; по кожному елементу замапиться і відмальює компоненту Contact
+                                .map(key => { //? Object.keys пробіжиться по всьому об'єкту який приходить з серверу і дасть кожному елементу по ключу по кожному елементу замапиться і відмальює компоненту Contact
                                     return (
-                                        <div className='contacts' key={key}>
-                                            <span style={{ color: 'black' }}>{key}:
+                                        <div className='edit__contacts' key={key}>
+                                            <div className='contact'>
                                                 <Input onChange={formik.handleChange} onBlur={formik.handleBlur} name={`contacts.${key}`}
-                                                    className='input__field' type={key} style={{marginLeft: 10, marginTop: 10}} />
-                                            </span>
+                                                    className='input__contact' type={key} placeholder={key} style={{ marginLeft: 10, marginTop: 10, width: 150 }}
+                                                    prefix={contactsIcons(key)}
+                                                />
+                                            </div>
                                         </div>
                                     )
                                 })}</span>
                     </div>
-                    <Button type='primary' danger htmlType='submit' onClick={outFromEditMode} style={{ marginRight: 30 }}>
-                        {language === eng ? 'Back' : 'Назад'}
-                    </Button>
-                    <Button type='primary' htmlType='submit' disabled={formik.isSubmitting} >
-                        {language === eng ? 'Save' : 'Зберегти'}
-                    </Button>
+                    <div className='btn__actions'>
+                        <Button type='primary' danger htmlType='submit' onClick={outFromEditMode} style={{ marginRight: 40 }}>
+                            {language === eng ? 'Back' : 'Назад'}
+                        </Button>
+                        <Button type='primary' htmlType='submit' disabled={formik.isSubmitting} >
+                            {language === eng ? 'Save' : 'Зберегти'}
+                        </Button>
+                    </div>
                 </Form>
             )}
         </Formik>

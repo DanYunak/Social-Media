@@ -1,0 +1,46 @@
+.status {
+    word-wrap: break-word;
+    max-width: 500px;
+    margin-left: 5px;
+}
+
+.input__status {
+    margin-top: 15px;
+    max-width: 250px;
+}
+
+@media (max-width: 750px) {
+    .status {
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 610px) {
+    .status {
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 505px) {
+    .status {
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 455px) {
+    .status {
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 405px) {
+    .status {
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 355px) {
+    .status {
+        max-width: 100px;
+    }
+}

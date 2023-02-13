@@ -1,8 +1,8 @@
 .settings {
     padding-top: 100px;
-}
-
-.language__change {
     display: flex;
     align-items: center;
+    @media (max-width: 395px) {
+        flex-direction: column;
+    }
 }
